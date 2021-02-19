@@ -1,0 +1,9 @@
+Tema projekta je rekreacija igrice Bong.io 
+osnovne klase koje ce biti koristene:
+class Player extends Ball (+ ima health, kontrole i tako to)
+class Ball (uvek je krug i ima neki skin)
+class Platform (vise shapeova)
+class Shape (npr trougao kvadrat krug poligon)
+class Property (ovo imam copy paste to je da se na primer poveca gravitacija, smanji health posle odredjenog vremena itd)
+class Portal (tip portala da li je ulazni/izlazni i sa kojim je povezan, ako portal nije povezan baca se portalNotCompleteException, kad loptica udje na drugi kraj izadje)
+Tokom procesa rada ce se dodati jos klasa.
