@@ -71,3 +71,8 @@ class Property {
         }
 
     }
+/*todo
+poboljsati Thread.sleep da bude preciznije
+funkcija stop()
+setter za delta mozda???
+*/
