@@ -75,4 +75,5 @@ class Property {
 poboljsati Thread.sleep da bude preciznije
 funkcija stop()
 setter za delta mozda???
+builder pattern ( + exception ObjectNotBuiltException)
 */
