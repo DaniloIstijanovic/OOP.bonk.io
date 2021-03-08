@@ -1,1 +1,3 @@
-readme
+# Utils
+
+Mesto za staticne klase.
