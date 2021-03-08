@@ -3,7 +3,17 @@ package oop.bonk.io;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import oop.bonk.io.utils.DebugUtil;
+
+/*
+ * univerzalna klasa za automatsko menjanje promenljivih:
+ * posle odredjenog vremena se aktivira
+ * zatim se uvecava ili smanjuje dok se ne dodje do granice
+ * planirano: dodatak za pseudo kod koji korisnik moze da unese
+ * koriscen je builder pattern
+ */
 public class Property {
+
     private double base;
     // ako je negativno nez nam sta onda recimo da je korisnik glup za sad
     private int delay;
@@ -50,7 +60,7 @@ public class Property {
     public void start() {
         workingValue = base;
         if (delta == 0) {
-            Main.debug(Main.DebugReason.WARNING, "delta je 0, treba nesto uraditi");
+            DebugUtil.debug(DebugUtil.DebugReason.WARNING, "delta je 0, treba nesto uraditi");
         } else {
             Timer timer = new Timer();
 
@@ -110,6 +120,8 @@ public class Property {
     }
 
     private Property(Builder builder) {
+        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
+                "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
         this.base = builder.base;
         this.delay = builder.delay;
         this.delta = builder.delta;
@@ -125,6 +137,8 @@ public class Property {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        Main.debug(Main.DebugReason.MEMORY, "Instanca klase " + getClass().getSimpleName() + " se finalizuje");
+        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
+                "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
     }
+
 }
