@@ -4,5 +4,7 @@ moguce da ce biti pomereno kasnije
 
 tutorial kako ucitati:
 
-```String path = "oop/bonk/io/resources/image.png";
-InputStream is = getClass().getClassLoader().getResourceAsStream(path);```
+```
+String path = "oop/bonk/io/resources/image.png";
+InputStream is = getClass().getClassLoader().getResourceAsStream(path);
+```
