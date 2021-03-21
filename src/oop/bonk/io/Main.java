@@ -24,6 +24,10 @@ public class Main {
                 DebugUtil.debug(DebugUtil.DebugReason.FILE, "Nece da radi debug u file ");
             }
         }
+        // privremeni login sistem, problem je sto ce i igra i login da se pokrenu u isto vreme za sad
+        Passwords idPasswords = new Passwords();
+        LoginPage loginpage = new LoginPage(idPasswords.getlogininfo());
+        // root treba da pozove login u buducnosti
         new Root(true);
     }
 
