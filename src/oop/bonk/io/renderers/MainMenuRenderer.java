@@ -4,8 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 
+import javax.swing.JPanel;
+
 import oop.bonk.io.Main;
-import oop.bonk.io.Root;
 import oop.bonk.io.utils.DebugUtil;
 
 /*

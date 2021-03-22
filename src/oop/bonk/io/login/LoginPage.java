@@ -1,4 +1,4 @@
-package login;
+package oop.bonk.io.login;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -24,7 +24,7 @@ public class LoginPage implements ActionListener {
     JLabel message = new JLabel();
     HashMap<String, String> logininfo = new HashMap<String, String>();
 
-    LoginPage(HashMap<String, String> loginI) {
+    public LoginPage(HashMap<String, String> loginI) {
 
         logininfo = loginI;
         // velicine

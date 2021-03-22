@@ -1,5 +1,8 @@
 package oop.bonk.io;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 /*
  * namena: koristi se kada je program ukljucen prvi put
  * ili kad je citanje iz fajla iskljuceno
@@ -7,4 +10,11 @@ package oop.bonk.io;
  */
 public class FirstRun implements ActionListener {
 
+    @Override
+    public void actionPerformed(ActionEvent arg0) {
+        // TODO Auto-generated method stub
+        
+    }
+
 }
+

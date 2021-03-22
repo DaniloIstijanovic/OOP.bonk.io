@@ -3,12 +3,16 @@ package oop.bonk.io;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import oop.bonk.io.login.LoginPage;
+import oop.bonk.io.login.Passwords;
 import oop.bonk.io.utils.DebugUtil;
 
 /*
  * ovde se treba odluciti da li pokrenuti firstrun dijalog
  */
 public class Main {
+    
+    public static final boolean hocuMuziku = true;
     
     public static final int xSize = 1280;
     public static final int ySize = 720;

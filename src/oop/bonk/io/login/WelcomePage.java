@@ -1,4 +1,4 @@
-package login;
+package oop.bonk.io.login;
 
 import java.awt.*;
 import javax.swing.*;
