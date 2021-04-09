@@ -5,17 +5,19 @@ import java.io.IOException;
 
 import oop.bonk.io.login.LoginPage;
 import oop.bonk.io.login.Passwords;
+import oop.bonk.io.renderers.MainMenuRenderer;
 import oop.bonk.io.utils.DebugUtil;
 
 /*
  * ovde se treba odluciti da li pokrenuti firstrun dijalog
  */
 public class Main {
-    
+
     public static final boolean hocuMuziku = true;
-    
+
     public static final int xSize = 1280;
     public static final int ySize = 720;
+
 
     public static void main(String[] args) {
         System.setProperty("sun.java2d.opengl", "true");
@@ -32,7 +34,7 @@ public class Main {
         Passwords idPasswords = new Passwords();
         LoginPage loginpage = new LoginPage(idPasswords.getlogininfo());
         // root treba da pozove login u buducnosti
-        new Root(true);
+        //new Root(true);
     }
 
     // ovo je u potpunosti staticka klasa

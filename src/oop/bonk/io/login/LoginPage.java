@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import oop.bonk.io.Root;
+
 public class LoginPage implements ActionListener {
 
     JFrame frame = new JFrame();
@@ -77,7 +79,8 @@ public class LoginPage implements ActionListener {
                     message.setForeground(Color.green);
                     message.setText("Radi");
                     frame.dispose();
-                    WelcomePage welcomePage = new WelcomePage(userID);
+                    //WelcomePage welcomePage = new WelcomePage(userID);
+                    Root root = new Root(true);
                 } else {
                     message.setForeground(Color.red);
                     message.setText("Ne radi");

@@ -2,25 +2,32 @@ package oop.bonk.io;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.Toolkit;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import oop.bonk.io.renderers.MainMenuRenderer;
 import oop.bonk.io.utils.DebugUtil;
 import oop.bonk.io.utils.MusicUtil;
 /*
-* pozvo ga preload
-*/
+ * pozvo ga preload
+ */
+
+
+
 public class Root {
 
     private static JFrame frame = new JFrame();
 
+
     @SuppressWarnings("unused")
     private final boolean noConfig;
-
+    //enum GAME ce se koristiti za proveru stanja da li je u igrici ili u main manu-u
     public enum Menu {
-        MAINMENU, OPTIONS, ROOM
+        MAINMENU, OPTIONS, ROOM,GAME
     }
 
     public Root(boolean a2) {
@@ -29,16 +36,23 @@ public class Root {
 
 
         frame = new JFrame("oop.bonk.io");
+
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setBackground(new Color((int) (Math.random() * 256), (int) (Math.random() * 256), (int) (Math.random() * 256)));
+        frame.setBackground(Color.black);
         frame.setResizable(false);
         frame.setContentPane(new MainMenuRenderer());
+
         frame.setVisible(true);
         frame.pack();
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
+
+
+
+
+
         new Thread() {
             @Override
             public void run() {
@@ -57,7 +71,7 @@ public class Root {
             MusicUtil.playMusic();
         }
     }
-    
+
     public static JFrame getFrame() {
         return frame;
     }
