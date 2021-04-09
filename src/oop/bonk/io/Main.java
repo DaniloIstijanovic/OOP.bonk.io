@@ -17,6 +17,9 @@ public class Main {
 
     public static final int xSize = 1280;
     public static final int ySize = 720;
+    /*
+     * this.addMouseListener(new MouseInput());  ----- Input Misa za Button
+     */
 
 
     public static void main(String[] args) {

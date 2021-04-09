@@ -1,7 +1,6 @@
 package oop.bonk.io.login;
 
-import java.awt.Color;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
@@ -58,6 +57,13 @@ public class LoginPage implements ActionListener {
         frame.setSize(420, 420);
         frame.setLayout(null);
         frame.setVisible(true);
+
+
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
+
 
     }
 

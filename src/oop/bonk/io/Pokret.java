@@ -133,7 +133,7 @@ public class Pokret extends JPanel implements ActionListener, KeyListener{
     }
 
 
-    public static void main(String[] args){
+    public static void notMain() {
         Pokret p = new Pokret();
         JFrame jf = new JFrame();
         jf.setTitle("Pokret");

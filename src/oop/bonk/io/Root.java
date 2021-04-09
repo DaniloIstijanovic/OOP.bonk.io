@@ -2,6 +2,9 @@ package oop.bonk.io;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Toolkit;
 
@@ -35,6 +38,7 @@ public class Root {
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
 
 
+
         frame = new JFrame("oop.bonk.io");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -48,10 +52,6 @@ public class Root {
         int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
-
-
-
-
 
         new Thread() {
             @Override
