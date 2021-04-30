@@ -1,4 +1,10 @@
+Secret.java
+/bin/
 /.settings/
 .classpath
 .project
-/bin/
+/.idea/
+*.iml
+/classes/
+*.log
+/target/
