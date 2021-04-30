@@ -1,9 +1,9 @@
 package oop.bonk.io;
 
+import oop.bonk.io.utils.DebugUtil;
+
 import java.util.Timer;
 import java.util.TimerTask;
-
-import oop.bonk.io.utils.DebugUtil;
 
 /*
  * univerzalna klasa za automatsko menjanje promenljivih:
@@ -14,19 +14,19 @@ import oop.bonk.io.utils.DebugUtil;
  */
 public class Property {
 
-    private double base;
+    private final double base;
     // ako je negativno nez nam sta onda recimo da je korisnik glup za sad
-    private int delay;
+    private final int delay;
     // povecanje ili smanjenje po sekundi
-    private double delta;
-    private double limit;
+    private final double delta;
+    private final double limit;
 
     // false ako je delta < 0, true ako je delta > 0, ubrzava kod
-    private boolean mode;
+    private final boolean mode;
     // promenljiva koju zapravo aktivno koristimo
     private double workingValue;
 
-    private Thread thread = new Thread(new Runnable() {
+    private final Thread thread = new Thread(new Runnable() {
         @Override
         public void run() {
             while (mode ? (getWorkingValue() < getLimit()) : (getLimit() < getWorkingValue())) {
@@ -71,7 +71,7 @@ public class Property {
                 }
             };
 
-            timer.schedule(task, getIncreaseDelay() * 1000);
+            timer.schedule(task, getIncreaseDelay() * 1000L);
         }
     }
 
@@ -125,13 +125,9 @@ public class Property {
         this.base = builder.base;
         this.delay = builder.delay;
         this.delta = builder.delta;
-
-        if (delta > 0) {
-            mode = true;
-        } else {
-            mode = false;
-        }
         this.limit = builder.limit;
+
+        mode = delta > 0;
     }
 
     @Override
