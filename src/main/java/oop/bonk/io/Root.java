@@ -1,6 +1,6 @@
 package oop.bonk.io;
 
-import oop.bonk.io.renderers.MainMenuRenderer;
+import oop.bonk.io.frames.MainMenuFrame;
 import oop.bonk.io.utils.DebugUtil;
 import oop.bonk.io.utils.MusicUtil;
 
@@ -15,12 +15,6 @@ public class Root {
 
     private static JFrame frame = new JFrame();
 
-    //enum GAME ce se koristiti za proveru stanja da li je u igrici ili u main manu-u
-    @SuppressWarnings("unused")
-    public enum Menu {
-        MAINMENU, OPTIONS, ROOM, GAME
-    }
-
     public Root() {
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
@@ -31,7 +25,7 @@ public class Root {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.black);
         frame.setResizable(false);
-        frame.setContentPane(new MainMenuRenderer());
+        frame.setContentPane(new MainMenuFrame());
 
         frame.setVisible(true);
         frame.pack();
@@ -64,5 +58,11 @@ public class Root {
         super.finalize();
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
                 "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+    }
+
+    //enum GAME ce se koristiti za proveru stanja da li je u igrici ili u main manu-u
+    @SuppressWarnings("unused")
+    public enum Menu {
+        MAINMENU, OPTIONS, ROOM, GAME
     }
 }

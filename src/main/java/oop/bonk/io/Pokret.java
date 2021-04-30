@@ -11,13 +11,13 @@ import java.awt.event.KeyListener;
 public class Pokret extends JPanel implements ActionListener, KeyListener {
 
     final Timer tm = new Timer(5, this);
+    final int gravitacija = 1;
     int x = 0;
     int y = 0;
     int x2 = 0;
     int y2 = 0;
     int velX = 0;
     int velY = 0;
-    final int gravitacija = 1;
 
 
     public Pokret() {
@@ -25,6 +25,16 @@ public class Pokret extends JPanel implements ActionListener, KeyListener {
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+    }
+
+    public static void notMain() {
+        Pokret p = new Pokret();
+        JFrame jf = new JFrame();
+        jf.setTitle("Pokret");
+        jf.setSize(1000, 1000);
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        jf.add(p);
     }
 
     public void paintComponent(Graphics g) {
@@ -96,6 +106,9 @@ public class Pokret extends JPanel implements ActionListener, KeyListener {
         repaint();
     }
 
+    public void keyTyped(KeyEvent e) {
+    }
+
     public void keyPressed(KeyEvent e) {
         int c = e.getKeyCode();
 
@@ -118,23 +131,9 @@ public class Pokret extends JPanel implements ActionListener, KeyListener {
 
     }
 
-    public void keyTyped(KeyEvent e) {
-    }
-
     public void keyReleased(KeyEvent e) {
         velX = 0;
         velY = 0;
-    }
-
-
-    public static void notMain() {
-        Pokret p = new Pokret();
-        JFrame jf = new JFrame();
-        jf.setTitle("Pokret");
-        jf.setSize(1000, 1000);
-        jf.setVisible(true);
-        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        jf.add(p);
     }
 
 }

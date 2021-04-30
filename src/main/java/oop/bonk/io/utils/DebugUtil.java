@@ -5,20 +5,12 @@ import java.io.IOException;
 
 public class DebugUtil {
 
-    public enum DebugMethod {
-        NONE, CONSOLE, FILE
-    }
-
-    public enum DebugReason {
-        INFO, WARNING, ERROR, CRITICAL, MEMORY, FILE
-    }
-
-    public static DebugMethod debugMethod = DebugMethod.CONSOLE;
     public static final boolean[] debugReasonsIListenTo = {true, true, true, true, true, true};
+    public static DebugMethod debugMethod = DebugMethod.CONSOLE;
     public static FileWriter fw;
 
-    private static boolean iAmListeningTo(DebugReason reason) {
-        return debugReasonsIListenTo[reason.ordinal()];
+    // ovo je u potpunosti staticka klasa
+    private DebugUtil() {
     }
 
     public static void debug(DebugReason reason, String string) {
@@ -44,8 +36,16 @@ public class DebugUtil {
         }
     }
 
-    // ovo je u potpunosti staticka klasa
-    private DebugUtil() {
+    private static boolean iAmListeningTo(DebugReason reason) {
+        return debugReasonsIListenTo[reason.ordinal()];
+    }
+
+    public enum DebugMethod {
+        NONE, CONSOLE, FILE
+    }
+
+    public enum DebugReason {
+        INFO, WARNING, ERROR, CRITICAL, MEMORY, FILE
     }
 
 }

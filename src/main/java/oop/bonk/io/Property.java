@@ -41,20 +41,19 @@ public class Property {
         }
     });
 
+    private Property(Builder builder) {
+        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
+                "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+        this.base = builder.base;
+        this.delay = builder.delay;
+        this.delta = builder.delta;
+        this.limit = builder.limit;
+
+        mode = delta > 0;
+    }
+
     public double getWorkingValue() {
         return workingValue;
-    }
-
-    private int getIncreaseDelay() {
-        return delay;
-    }
-
-    private double getLimit() {
-        return limit;
-    }
-
-    private void tick() {
-        workingValue += delta;
     }
 
     public void start() {
@@ -81,6 +80,25 @@ public class Property {
 
     public void unPause() {
         thread.start();
+    }
+
+    @Override
+    protected void finalize() throws Throwable {
+        super.finalize();
+        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
+                "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+    }
+
+    private int getIncreaseDelay() {
+        return delay;
+    }
+
+    private double getLimit() {
+        return limit;
+    }
+
+    private void tick() {
+        workingValue += delta;
     }
 
     public static class Builder {
@@ -117,24 +135,6 @@ public class Property {
         public Property build() {
             return new Property(this);
         }
-    }
-
-    private Property(Builder builder) {
-        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
-                "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
-        this.base = builder.base;
-        this.delay = builder.delay;
-        this.delta = builder.delta;
-        this.limit = builder.limit;
-
-        mode = delta > 0;
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
-                "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
     }
 
 }

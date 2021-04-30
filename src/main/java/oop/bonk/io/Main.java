@@ -21,7 +21,7 @@ public class Main {
             new Point(1280, 720),
             new Point(1920, 1080),
     };
-    public static final Point WINDOWSIZE = COMMONSIZES[1];
+    public static final Point WINDOWSIZE = COMMONSIZES[2];
     public static Font neoSansFont;
 
     /*
