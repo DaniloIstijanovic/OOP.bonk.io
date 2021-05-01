@@ -8,3 +8,4 @@ Secret.java
 /classes/
 *.log
 /target/
+*/META-INF/
