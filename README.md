@@ -1,10 +1,7 @@
-# OOP.bonk.io
-potencijalne klase za uraditi:
-class Platform,
-abstract class Shape,
-class Triangle extends Shape,
-class Rectangle extends Shape,
-class Circle extends Shape,
-class ConvexPolygon extends Shape,
-class Portal extends Rectangle (@Override onCollide),
-class Player extends Circle (@Override onCollide)
+# cemo da drugacije nazovemo???
+
+na primer BonkJar (kao jer oop.bonk.io je lose jer mi nismo vlasnici bonk.io)
+
+i ovde dole jos pise sta je sta
+
+https://github.com/matiassingers/awesome-readme

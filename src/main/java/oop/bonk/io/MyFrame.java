@@ -1,58 +1,52 @@
 package oop.bonk.io;
 
-import oop.bonk.io.frames.MainMenuFrame;
+import oop.bonk.io.panels.MainMenuPanel;
 import oop.bonk.io.utils.DebugUtil;
+import oop.bonk.io.utils.MiscUtil;
 import oop.bonk.io.utils.MusicUtil;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
 /*
  * pozvo ga preload
  */
 
 
-public class Root {
+public class MyFrame {
 
     private static JFrame frame = new JFrame();
 
-    public Root() {
+    public MyFrame() {
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
 
 
         frame = new JFrame("BonkJar");
-
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.black);
         frame.setResizable(false);
-        frame.setContentPane(new MainMenuFrame());
-
+        try {
+            frame.setIconImage(ImageIO.read(MiscUtil.getResource("img/image.png")));
+        } catch (IOException ignored) {
+        }
+        frame.setContentPane(new MainMenuPanel());
         frame.setVisible(true);
         frame.pack();
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-        frame.setLocation(x, y);
-
-        // zavrsili smo sa prikazivanjem pocetnog frame-a
-
-        // https://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html
+        MiscUtil.moveToCenter(frame);
 
         if (Main.hocuMuziku) {
             MusicUtil.playMusic();
         }
 
-        new Thread(()->{
-            while(true) {
-                if(frame.isFocused()){
+        new Thread(() -> {
+            while (true) {
+                if (frame.isFocused()) {
                     frame.repaint();
                 }
             }
         }).start();
-    }
-
-    public static JFrame getFrame() {
-        return frame;
     }
 
     @Override
@@ -67,4 +61,5 @@ public class Root {
     public enum Menu {
         MAINMENU, OPTIONS, ROOM, GAME
     }
+
 }

@@ -2,7 +2,9 @@ package oop.bonk.io.utils;
 
 import oop.bonk.io.Main;
 
+import javax.swing.*;
 import java.awt.*;
+import java.io.InputStream;
 
 public class MiscUtil {
 
@@ -36,7 +38,7 @@ public class MiscUtil {
             case 3:
                 return new Point(p.x, p.y + 1);
             default:
-                throw new RuntimeException();
+                throw new InternalError();
         }
     }
 
@@ -47,5 +49,16 @@ public class MiscUtil {
     public static void drawStringCenter(Graphics g, String text, int x, int y) {
         FontMetrics metrics = g.getFontMetrics();
         g.drawString(text, x - metrics.stringWidth(text) / 2, y - metrics.getHeight() / 2 + metrics.getAscent());
+    }
+
+    public static InputStream getResource(String path) {
+        return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+    }
+
+    public static void moveToCenter(JFrame frame) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((screenSize.getWidth() - frame.getWidth()) / 2);
+        int y = (int) ((screenSize.getHeight() - frame.getHeight()) / 2);
+        frame.setLocation(x, y);
     }
 }

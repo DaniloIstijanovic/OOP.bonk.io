@@ -1,6 +1,7 @@
 package oop.bonk.io.login;
 
-import oop.bonk.io.Root;
+import oop.bonk.io.MyFrame;
+import oop.bonk.io.utils.MiscUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,14 +53,7 @@ public class LoginPage implements ActionListener {
         frame.setSize(420, 420);
         frame.setLayout(null);
         frame.setVisible(true);
-
-
-        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (int) ((dimension.getWidth() - frame.getWidth()) / 2);
-        int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
-        frame.setLocation(x, y);
-
-
+        MiscUtil.moveToCenter(frame);
     }
 
     @Override
@@ -81,7 +75,7 @@ public class LoginPage implements ActionListener {
                     message.setText("Radi");
                     frame.dispose();
                     //WelcomePage welcomePage = new WelcomePage(userID);
-                    Root root = new Root();
+                    MyFrame root = new MyFrame();
                 } else {
                     message.setForeground(Color.red);
                     message.setText("Ne radi");

@@ -6,6 +6,7 @@ import java.awt.*;
 
 //i ovde ce mozda builder da ide
 public class MyButton {
+
     public static final Point BUTTONSIZE = new Point(Main.WINDOWSIZE.x / 5, Main.WINDOWSIZE.y / 10);
     private Point location;
     private Point size;
@@ -35,7 +36,7 @@ public class MyButton {
         return x >= location.x && x <= location.x + size.x && y >= location.y && y <= location.y + size.y;
     }
 
-    //da li linija sece dugme
+    //da li linija sece dugme (nedovrseno)
     public boolean isCuttingButton(Point p1, Point p2) {
         return false;
     }
@@ -72,4 +73,5 @@ public class MyButton {
         ((Graphics2D) g).draw(toRectangle());
         MiscUtil.drawStringCenter(g, text, getCenter().x, getCenter().y);
     }
+
 }

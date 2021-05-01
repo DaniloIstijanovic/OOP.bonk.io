@@ -3,9 +3,9 @@ package oop.bonk.io;
 import oop.bonk.io.login.LoginPage;
 import oop.bonk.io.login.Passwords;
 import oop.bonk.io.utils.DebugUtil;
+import oop.bonk.io.utils.MiscUtil;
 
 import java.awt.*;
-import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -29,7 +29,7 @@ public class Main {
             new Point(1280, 720),
             new Point(1920, 1080),
     };
-    public static final Point WINDOWSIZE = COMMONSIZES[8];
+    public static Point WINDOWSIZE = COMMONSIZES[8];
     public static Font neoSansFont;
 
     /*
@@ -42,8 +42,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         System.setProperty("sun.java2d.opengl", "true");
-
-        neoSansFont = Font.createFont(Font.TRUETYPE_FONT, new File("src/main/resources/fonts/neo-sans-bold.otf"));
+        neoSansFont = Font.createFont(Font.TRUETYPE_FONT, MiscUtil.getResource("fonts/neo-sans-bold.otf"));
         GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(neoSansFont);
 
         if (DebugUtil.debugMethod == DebugUtil.DebugMethod.FILE) {
@@ -57,6 +56,9 @@ public class Main {
         }
         Passwords idPasswords = new Passwords();
         new LoginPage(idPasswords.getlogininfo());
+        if(args.length > 1) {
+            WINDOWSIZE = new Point(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
+        }
     }
 
 }

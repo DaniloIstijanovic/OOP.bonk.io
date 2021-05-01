@@ -1,4 +1,4 @@
-package oop.bonk.io.frames;
+package oop.bonk.io.panels;
 
 import oop.bonk.io.Main;
 import oop.bonk.io.MouseInput;
@@ -14,7 +14,7 @@ import java.util.List;
 /*
  * render za pocetni meni
  */
-public class MainMenuFrame extends JPanel {
+public class MainMenuPanel extends JPanel {
 
     public static final MyButton playButton = new MyButton("Play");
     public static final MyButton optButton = new MyButton("Options");
@@ -43,7 +43,7 @@ public class MainMenuFrame extends JPanel {
         }
     }
 
-    public MainMenuFrame() {
+    public MainMenuPanel() {
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
         setBackground(Color.black);
