@@ -4,6 +4,7 @@ import oop.bonk.io.Main;
 import oop.bonk.io.MouseInput;
 import oop.bonk.io.MyButton;
 import oop.bonk.io.utils.DebugUtil;
+import oop.bonk.io.utils.MiscUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,12 +15,16 @@ import java.util.List;
  * render za pocetni meni
  */
 public class MainMenuFrame extends JPanel {
-    public static final MyButton playButton = new MyButton();
-    public static final MyButton optButton = new MyButton();
-    public static final MyButton quitButton = new MyButton();
-    public static final List<Point> zmijica = new ArrayList<>();
 
+    public static final MyButton playButton = new MyButton("Play");
+    public static final MyButton optButton = new MyButton("Options");
+    public static final MyButton quitButton = new MyButton("Quit");
     private static final long serialVersionUID = 1L;
+    //proba za animacije
+    private static final List<List<Point>> zmijice = new ArrayList<>();
+    private static final int kolikoTacaka = 10000;
+    private static final int kolikoRefresh = 100;
+    private static final Color[] boje = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.BLUE, Color.MAGENTA};
 
     static {
         playButton.center();
@@ -27,6 +32,15 @@ public class MainMenuFrame extends JPanel {
         optButton.center();
         quitButton.center();
         quitButton.setLocation(quitButton.getLocation().x, quitButton.getLocation().y + (int) (1.5 * MyButton.BUTTONSIZE.y));
+
+        for (int i = 0; i < 7; i++) {
+            List<Point> zmijica = new ArrayList<>();
+            zmijica.add(new Point((int) (Math.random() * Main.WINDOWSIZE.x), (int) (Math.random() * Main.WINDOWSIZE.y)));
+            for (int j = 0; j < kolikoTacaka - 1; j++) {
+                zmijica.add(MiscUtil.withinWindow(MiscUtil.randomAdjacent(zmijica.get(j))));
+            }
+            zmijice.add(zmijica);
+        }
     }
 
     public MainMenuFrame() {
@@ -34,51 +48,23 @@ public class MainMenuFrame extends JPanel {
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
         setBackground(Color.black);
         this.addMouseListener(new MouseInput());
-
-        //proba za animiranu pozadinu
-        zmijica.add(new Point((int) (Math.random() * Main.WINDOWSIZE.x), (int) (Math.random() * Main.WINDOWSIZE.y)));
-        for (int i = 1; i < 5000; i++) {
-            Point old = zmijica.get(i - 1);
-            zmijica.add(new Point(old.x + (int) (Math.random() * 3) - 1, old.y + (int) (Math.random() * 3) - 1));
-        }
     }
 
     public void renderButtons(Graphics g) {
-        Graphics2D g2d = (Graphics2D) g;
-        Font font2 = new Font("arial", Font.BOLD, 30);
-        g.setFont(Main.neoSansFont.deriveFont(30f));
-        g.drawString("Play", playButton.getLocation().x + 19, playButton.getLocation().y + 30);
-        g2d.draw(playButton.toRectangle());
-        g.drawString("Options", optButton.getLocation().x + 19, optButton.getLocation().y + 30);
-        g2d.draw(optButton.toRectangle());
-        g.drawString("Quit", quitButton.getLocation().x + 19, quitButton.getLocation().y + 30);
-        g2d.draw(quitButton.toRectangle());
+        g.setFont(Main.neoSansFont.deriveFont(Main.WINDOWSIZE.y * 0.05f));
 
-
-    } //ovo npr nece da radi
+        playButton.draw(g);
+        optButton.draw(g);
+        quitButton.draw(g);
+    }
 
     @Override
     public void paintComponent(Graphics g) {
-        Font font = new Font("arial", Font.BOLD, 50);
-        g.setFont(font);
+        renderBackground(g);
+        g.setFont(Main.neoSansFont.deriveFont(Main.WINDOWSIZE.y * 0.1f));
         g.setColor(Color.white);
-        g.drawString("BonkJar", Main.WINDOWSIZE.x / 4, Main.WINDOWSIZE.y / 4);
+        MiscUtil.drawStringCenter(g, "BonkJar", Main.WINDOWSIZE.x / 2, Main.WINDOWSIZE.y / 5);
         renderButtons(g);
-        g.setColor(Color.green);
-
-        //proba za animiranu pozadinu
-        Point old = zmijica.get(4999);
-        zmijica.remove(0);
-        zmijica.add(new Point(old.x + (int) (Math.random() * 3) - 1, old.y + (int) (Math.random() * 3) - 1));
-        for (int i = 0; i < 5000; i++) {
-            Point sad = zmijica.get(i);
-            g.drawString(".", sad.x, sad.y);
-        }
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -91,6 +77,23 @@ public class MainMenuFrame extends JPanel {
         super.finalize();
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
                 "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+    }
+
+    private void renderBackground(Graphics g) {
+        for (int i = 0; i < 7; i++) {
+            g.setColor(boje[i]);
+            mutirajZmijicu(zmijice.get(i), kolikoRefresh);
+            for (Point p : zmijice.get(i)) {
+                g.drawLine(p.x, p.y, p.x, p.y);
+            }
+        }
+    }
+
+    private void mutirajZmijicu(List<Point> zmijica, int n) {
+        for (int i = 0; i < n; i++) {
+            zmijica.add(MiscUtil.withinWindow(MiscUtil.randomAdjacent(zmijica.get(kolikoTacaka - 1))));
+            zmijica.remove(0);
+        }
     }
 
 }

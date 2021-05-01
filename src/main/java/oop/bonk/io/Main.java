@@ -16,12 +16,20 @@ public class Main {
 
     public static final boolean hocuMuziku = true;
     public static final Point[] COMMONSIZES = {
-            new Point(600, 400),
+            //4:3
+            new Point(640, 480),
+            new Point(800, 600),
+            new Point(960, 720),
+            new Point(1024, 768),
+            new Point(1280, 960),
+            //16:9
+            new Point(640, 360),
             new Point(854, 480),
+            new Point(960, 540),
             new Point(1280, 720),
             new Point(1920, 1080),
     };
-    public static final Point WINDOWSIZE = COMMONSIZES[2];
+    public static final Point WINDOWSIZE = COMMONSIZES[8];
     public static Font neoSansFont;
 
     /*

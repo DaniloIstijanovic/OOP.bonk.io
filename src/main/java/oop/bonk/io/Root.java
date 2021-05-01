@@ -20,7 +20,7 @@ public class Root {
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
 
 
-        frame = new JFrame("oop.bonk.io");
+        frame = new JFrame("BonkJar");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.black);
@@ -34,12 +34,6 @@ public class Root {
         int y = (int) ((dimension.getHeight() - frame.getHeight()) / 2);
         frame.setLocation(x, y);
 
-        new Thread(() -> {
-            while (true) {
-                frame.repaint();
-            }
-        }).start();
-
         // zavrsili smo sa prikazivanjem pocetnog frame-a
 
         // https://docs.oracle.com/javase/tutorial/uiswing/components/combobox.html
@@ -47,6 +41,14 @@ public class Root {
         if (Main.hocuMuziku) {
             MusicUtil.playMusic();
         }
+
+        new Thread(()->{
+            while(true) {
+                if(frame.isFocused()){
+                    frame.repaint();
+                }
+            }
+        }).start();
     }
 
     public static JFrame getFrame() {

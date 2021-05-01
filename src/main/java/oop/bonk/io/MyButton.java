@@ -1,5 +1,7 @@
 package oop.bonk.io;
 
+import oop.bonk.io.utils.MiscUtil;
+
 import java.awt.*;
 
 //i ovde ce mozda builder da ide
@@ -7,10 +9,12 @@ public class MyButton {
     public static final Point BUTTONSIZE = new Point(Main.WINDOWSIZE.x / 5, Main.WINDOWSIZE.y / 10);
     private Point location;
     private Point size;
+    private String text;
 
-    public MyButton() {
+    public MyButton(String text) {
         location = new Point(0, 0);
         size = BUTTONSIZE;
+        this.text = text;
     }
 
     public MyButton(Point location, Point size) {
@@ -56,8 +60,16 @@ public class MyButton {
         return location;
     }
 
+    public Point getCenter() {
+        return new Point(location.x + size.x / 2, location.y + size.y / 2);
+    }
+
     public Rectangle toRectangle() {
         return new Rectangle(location.x, location.y, size.x, size.y);
     }
 
+    public void draw(Graphics g) {
+        ((Graphics2D) g).draw(toRectangle());
+        MiscUtil.drawStringCenter(g, text, getCenter().x, getCenter().y);
+    }
 }
