@@ -32,9 +32,7 @@ public class Main {
     public static Point WINDOWSIZE = COMMONSIZES[8];
     public static Font neoSansFont;
 
-    /*
-     * this.addMouseListener(new MouseInput());  ----- Input Misa za Button
-     */
+   
 
     // ovo je u potpunosti staticka klasa
     private Main() {
