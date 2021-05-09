@@ -1,10 +1,11 @@
 package oop.bonk.io;
 
 import oop.bonk.io.panels.MainMenuPanel;
+import oop.bonk.io.Pokret;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
+import oop.bonk.io.panels.Options;
 public class MouseInput implements MouseListener {
 
     @Override
@@ -16,11 +17,14 @@ public class MouseInput implements MouseListener {
         int my = e.getY();
 
         if (MainMenuPanel.playButton.isInsideButton(mx, my)) {
-            Pokret.notMain();
+        	Pokret.NotMain();
+            //Pokret pk = new Pokret();
         } else if (MainMenuPanel.optButton.isInsideButton(mx, my)) {
+        	Options opt = new Options();
             System.out.println("kliknuto je options dugme");
         } else if (MainMenuPanel.quitButton.isInsideButton(mx, my)) {
-            System.out.println("kliknuto je exit dugme");
+             System.exit(0);
+           
         }
     }
 

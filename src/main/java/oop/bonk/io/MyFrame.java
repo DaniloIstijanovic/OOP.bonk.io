@@ -22,8 +22,9 @@ public class MyFrame {
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
                 "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
 
-
+        
         frame = new JFrame("BonkJar");
+        
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setBackground(Color.black);
         frame.setResizable(false);
@@ -34,6 +35,7 @@ public class MyFrame {
         frame.setContentPane(new MainMenuPanel());
         frame.setVisible(true);
         frame.pack();
+     
         MiscUtil.moveToCenter(frame);
 
         if (Main.hocuMuziku) {
@@ -48,7 +50,9 @@ public class MyFrame {
             }
         }).start();
     }
-
+    public static JFrame getFrame() {
+		return frame;   	    	  	
+    }
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
@@ -61,5 +65,5 @@ public class MyFrame {
     public enum Menu {
         MAINMENU, OPTIONS, ROOM, GAME
     }
-
-}
+   
+} 

@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import oop.bonk.io.MouseInput;
+import oop.bonk.io.utils.MiscUtil;
 
 public class Pokret extends JPanel implements ActionListener, KeyListener {
 
@@ -26,15 +27,19 @@ public class Pokret extends JPanel implements ActionListener, KeyListener {
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
     }
-
-    public static void notMain() {
-        Pokret p = new Pokret();
+    
+    public static void NotMain () {
+    	MyFrame.getFrame().setVisible(false);  
+    	Pokret p = new Pokret();
         JFrame jf = new JFrame();
         jf.setTitle("Pokret");
         jf.setSize(1000, 1000);
+        MiscUtil.moveToCenter(jf);
         jf.setVisible(true);
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jf.add(p);
+        
+        
     }
 
     public void paintComponent(Graphics g) {
@@ -62,18 +67,18 @@ public class Pokret extends JPanel implements ActionListener, KeyListener {
             y = 791;
         }
 
-        if (x < 212 && y > 559) {
+        if (x < 212 && y > 559) 
             if (y < 610) {
                 velY = 0;
                 y = 558;
             }
-        }
-        if (x < 212 && y < 650) {
+        
+        if (x < 212 && y < 650)
             if (y > 559) {
                 velY = 0;
                 y = 650;
             }
-        }
+        
 
         if (x > 280 && x < 610 && y > 380) {
             if (y < 440) {
@@ -127,6 +132,9 @@ public class Pokret extends JPanel implements ActionListener, KeyListener {
         if (c == KeyEvent.VK_DOWN) {
             velX = 0;
             velY = 5;
+        }
+        if(c == KeyEvent.VK_ESCAPE) {
+        	
         }
 
     }
