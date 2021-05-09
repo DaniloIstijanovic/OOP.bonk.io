@@ -18,10 +18,10 @@ public class MouseInput implements MouseListener {
 
         if (MainMenuPanel.playButton.isInsideButton(mx, my)) {
         	Pokret.NotMain();
-            //Pokret pk = new Pokret();
+          
         } else if (MainMenuPanel.optButton.isInsideButton(mx, my)) {
         	Options opt = new Options();
-            System.out.println("kliknuto je options dugme");
+            
         } else if (MainMenuPanel.quitButton.isInsideButton(mx, my)) {
              System.exit(0);
            
