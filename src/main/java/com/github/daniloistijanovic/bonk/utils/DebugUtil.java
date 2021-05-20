@@ -1,4 +1,4 @@
-package oop.bonk.io.utils;
+package com.github.daniloistijanovic.bonk.utils;
 
 import java.io.FileWriter;
 import java.io.IOException;

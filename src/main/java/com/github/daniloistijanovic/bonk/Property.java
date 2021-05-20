@@ -1,6 +1,6 @@
-package oop.bonk.io;
+package com.github.daniloistijanovic.bonk;
 
-import oop.bonk.io.utils.DebugUtil;
+import com.github.daniloistijanovic.bonk.utils.DebugUtil;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -43,7 +43,7 @@ public class Property {
 
     private Property(Builder builder) {
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
-                "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+            "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
         this.base = builder.base;
         this.delay = builder.delay;
         this.delta = builder.delta;
@@ -54,6 +54,10 @@ public class Property {
 
     public double getWorkingValue() {
         return workingValue;
+    }
+
+    public void pause() {
+        thread.interrupt();
     }
 
     public void start() {
@@ -74,10 +78,6 @@ public class Property {
         }
     }
 
-    public void pause() {
-        thread.interrupt();
-    }
-
     public void unPause() {
         thread.start();
     }
@@ -86,7 +86,7 @@ public class Property {
     protected void finalize() throws Throwable {
         super.finalize();
         DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
-                "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+            "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
     }
 
     private int getIncreaseDelay() {
@@ -117,6 +117,10 @@ public class Property {
             return this;
         }
 
+        public Property build() {
+            return new Property(this);
+        }
+
         public Builder delay(int delay) {
             this.delay = delay;
             return this;
@@ -130,10 +134,6 @@ public class Property {
         public Builder limit(double limit) {
             this.limit = limit;
             return this;
-        }
-
-        public Property build() {
-            return new Property(this);
         }
     }
 

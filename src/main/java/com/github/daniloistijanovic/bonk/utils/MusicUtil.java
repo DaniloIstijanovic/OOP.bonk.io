@@ -1,4 +1,4 @@
-package oop.bonk.io.utils;
+package com.github.daniloistijanovic.bonk.utils;
 
 import javazoom.jl.player.advanced.AdvancedPlayer;
 
@@ -15,12 +15,15 @@ public class MusicUtil {
     private MusicUtil() {
     }
 
-
-    public static void playMusic() {
-
+    @SuppressWarnings("unused")
+    public static String getCurrentPlayingFile() {
+        return playingFile;
     }
 
-    public static void playMusicaaaaa() {
+    // NONE NONE, RANDOM NONE, CHOSEN NONE, RANDOM ONE, RANDOM RANDOM, CHOSEN ONE,
+    // CHOSEN RANDOM
+
+    public static void playMusic() {
         new Thread(() -> {
             try {
                 for (String path : paths) {
@@ -53,14 +56,6 @@ public class MusicUtil {
                 DebugUtil.debug(DebugUtil.DebugReason.ERROR, "Failed to play the file.");
             }
         }).start();
-    }
-
-    // NONE NONE, RANDOM NONE, CHOSEN NONE, RANDOM ONE, RANDOM RANDOM, CHOSEN ONE,
-    // CHOSEN RANDOM
-
-    @SuppressWarnings("unused")
-    public static String getCurrentPlayingFile() {
-        return playingFile;
     }
 
     @SuppressWarnings("unused")

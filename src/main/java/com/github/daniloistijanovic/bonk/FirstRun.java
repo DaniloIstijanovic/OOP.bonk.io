@@ -1,4 +1,4 @@
-package oop.bonk.io;
+package com.github.daniloistijanovic.bonk;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
