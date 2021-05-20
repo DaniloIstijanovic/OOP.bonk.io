@@ -15,7 +15,12 @@ public class MusicUtil {
     private MusicUtil() {
     }
 
+
     public static void playMusic() {
+
+    }
+
+    public static void playMusicaaaaa() {
         new Thread(() -> {
             try {
                 for (String path : paths) {
