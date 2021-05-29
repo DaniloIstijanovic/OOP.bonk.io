@@ -1,18 +1,29 @@
 package com.github.daniloistijanovic.bonk.scenes;
 
 import com.github.daniloistijanovic.bonk.Main;
+
+import javafx.application.Application;
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class Login {
+public class Login{
+	Stage window;
+	
+	
 
     static final Map<String, String> logininfo = new HashMap<>();
 
@@ -23,17 +34,29 @@ public class Login {
     }
 
     final Button loginButton = new Button("Login");
+    final GridPane grid = new GridPane();
     final Button resetButton = new Button("Reset");
     final TextField userIDField = new TextField();
     final PasswordField userPasswordField = new PasswordField();
+    final Text welcomeTxt = new Text("welcome");
     final Label userID = new Label("username:");
     final Label userPasswordLabel = new Label("password:");
     final Label message = new Label();
-
+    
+    
+    public void start(Stage primaryStage) {
+		window = primaryStage;
+		window.setTitle("Wellcum");
+		
+		
+	}
     public Login() {
         Pane pane = new Pane();
         Scene scene = new Scene(pane, Main.WINDOWSIZE.x, Main.WINDOWSIZE.y);
-
+        grid.setAlignment(Pos.CENTER);
+        grid.setVgap(10);
+        grid.setHgap(10);
+        grid.setPadding(new Insets(10));
         setBounds(userID, 50, 100, 500, 500);
         setBounds(userPasswordLabel, 500, 150, 400, 400);
         setBounds(message, 125, 250, 250, 35);

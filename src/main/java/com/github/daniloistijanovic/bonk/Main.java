@@ -1,9 +1,10 @@
 package com.github.daniloistijanovic.bonk;
-
 import com.github.daniloistijanovic.bonk.scenes.Login;
 import com.github.daniloistijanovic.bonk.utils.DebugUtil;
 import com.github.daniloistijanovic.bonk.utils.MiscUtil;
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.text.Font;
@@ -62,16 +63,32 @@ public class Main extends Application {
     public static void setScene(Scene scene) {
         stage.setScene(scene);
     }
-
     @Override
-    public void start(Stage stage) {
-        Main.stage = stage;
-        stage.getIcons().add(new Image(MiscUtil.getResource("img/image.png")));
-        stage.setTitle("Bonk");
-
-        new Login();
-        stage.show();
+    public void start(Stage primaryStage) throws Exception{
+    		Parent root = FXMLLoader.load(getClass().getResource("Log.fxml"));
+    		primaryStage.setTitle("Welcome");
+    		primaryStage.setScene(new Scene(root,689,489));
+    		primaryStage.show();
+    	
+    	
     }
+   /* @Override
+    public void start(Stage stage) {
+    	try {
+			
+    		
+			Main.stage = stage;
+	        stage.getIcons().add(new Image(MiscUtil.getResource("img/image.png")));
+	        stage.setTitle("Bonk");
+
+	        new Login();
+	        stage.show();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+        
+    }*/
 
     //enum GAME ce se koristiti za proveru stanja da li je u igrici ili u main manu-u
     @SuppressWarnings("unused")
