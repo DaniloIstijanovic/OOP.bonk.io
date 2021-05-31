@@ -1,6 +1,6 @@
 package com.github.daniloistijanovic.bonk;
 
-import com.github.daniloistijanovic.bonk.scenes.MainMenu;
+import com.github.daniloistijanovic.bonk.scenesold.MainMenu;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Scene;
@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
+@Deprecated
 public class Pokret {
 
     private static GraphicsContext gc;
@@ -26,12 +27,12 @@ public class Pokret {
     public Pokret() {
 
         BorderPane pane = new BorderPane();
-        javafx.scene.canvas.Canvas canvas = new Canvas(Main.WINDOWSIZE.x, Main.WINDOWSIZE.y);
+        javafx.scene.canvas.Canvas canvas = new Canvas(Main.instance.WINDOWSIZE.x, Main.instance.WINDOWSIZE.y);
         gc = canvas.getGraphicsContext2D();
         canvas.setFocusTraversable(true);
 
         pane.setCenter(canvas);
-        Scene scene = new Scene(pane, Main.WINDOWSIZE.x, Main.WINDOWSIZE.y);
+        Scene scene = new Scene(pane, Main.instance.WINDOWSIZE.x, Main.instance.WINDOWSIZE.y);
 
         canvas.setOnKeyPressed(e -> {
             KeyCode c = e.getCode();
@@ -65,11 +66,11 @@ public class Pokret {
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
 
-        Main.setScene(scene);
+        Main.instance.setScene(scene);
     }
 
     public void draw() {
-        gc.clearRect(0, 0, Main.WINDOWSIZE.x, Main.WINDOWSIZE.y);
+        gc.clearRect(0, 0, Main.instance.WINDOWSIZE.x, Main.instance.WINDOWSIZE.y);
         gc.setFill(Color.RED);
         gc.fillRect(x, y, 50, 30);
         uradi();

@@ -4,13 +4,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
-import java.awt.*;
+import java.awt.Point;
 
 
 //i ovde ce mozda builder da ide
+@Deprecated
 public class MyButton {
 
-    public static final Point BUTTONSIZE = new Point(Main.WINDOWSIZE.x / 5, Main.WINDOWSIZE.y / 10);
+    public static final Point BUTTONSIZE = new Point(Main.instance.WINDOWSIZE.x / 5, Main.instance.WINDOWSIZE.y / 10);
     private Point location;
     private Point size;
     private String text;
@@ -31,7 +32,7 @@ public class MyButton {
     }
 
     public void center() {
-        setLocation((Main.WINDOWSIZE.x - size.x) / 2, (Main.WINDOWSIZE.y - size.y) / 2);
+        setLocation((Main.instance.WINDOWSIZE.x - size.x) / 2, (Main.instance.WINDOWSIZE.y - size.y) / 2);
     }
 
     public void draw(GraphicsContext gc) {

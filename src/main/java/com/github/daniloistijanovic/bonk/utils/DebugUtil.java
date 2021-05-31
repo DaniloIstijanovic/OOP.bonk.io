@@ -5,15 +5,40 @@ import java.io.IOException;
 
 public class DebugUtil {
 
-    public static final boolean[] debugReasonsIListenTo = {true, true, true, true, true, true};
-    public static DebugMethod debugMethod = DebugMethod.CONSOLE;
-    public static FileWriter fw;
+    public static DebugUtil debugger = new DebugUtil();
+    public final boolean[] debugReasonsIListenTo = {true, true, true, true, true, true};
+    public DebugMethod debugMethod = DebugMethod.CONSOLE;
+    public FileWriter fw;
 
     // ovo je u potpunosti staticka klasa
     private DebugUtil() {
     }
 
-    public static void debug(DebugReason reason, String string) {
+    public void critical(String s) {
+        debug(DebugReason.CRITICAL, s);
+    }
+
+    public void error(String s) {
+        debug(DebugReason.ERROR, s);
+    }
+
+    public void file(String s) {
+        debug(DebugReason.FILE, s);
+    }
+
+    public void info(String s) {
+        debug(DebugReason.INFO, s);
+    }
+
+    public void memory(String s) {
+        debug(DebugReason.MEMORY, s);
+    }
+
+    public void warning(String s) {
+        debug(DebugReason.WARNING, s);
+    }
+
+    private void debug(DebugReason reason, String string) {
         if (iAmListeningTo(reason)) {
             String generated = "[" + reason + "] " + string;
             switch (debugMethod) {
@@ -36,7 +61,7 @@ public class DebugUtil {
         }
     }
 
-    private static boolean iAmListeningTo(DebugReason reason) {
+    private boolean iAmListeningTo(DebugReason reason) {
         return debugReasonsIListenTo[reason.ordinal()];
     }
 

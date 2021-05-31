@@ -1,14 +1,16 @@
 package com.github.daniloistijanovic.bonk.utils;
 
+import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.advanced.AdvancedPlayer;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.Objects;
 
-public class MusicUtil {
+import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
-    private static final String[] paths = {"music/", "resources/music/", "src/main/resources/music/"};
+public class MusicUtil {
+    private static String rootPath = "music/";
+    private static int numberOfSongs;
     private static String playingFile;
 
     //staticka klasa
@@ -20,42 +22,57 @@ public class MusicUtil {
         return playingFile;
     }
 
-    // NONE NONE, RANDOM NONE, CHOSEN NONE, RANDOM ONE, RANDOM RANDOM, CHOSEN ONE,
-    // CHOSEN RANDOM
+    public static void init() {
 
-    public static void playMusic() {
-        new Thread(() -> {
-            try {
-                for (String path : paths) {
-                    File f = new File(path);
-                    if (f.exists()) {
-                        int numberOfSongs = Objects.requireNonNull(f.listFiles()).length;
+    }
 
-                        DebugUtil.debug(DebugUtil.DebugReason.INFO, numberOfSongs + " song" + (numberOfSongs != 1 ? "s" : "") + " found in " + path);
-                        if (numberOfSongs > 0) {
+    public static void loadFromDirectory(String dir) {
+        File f = new File(dir);
+        if (f.exists()) {
+            rootPath = dir;
+            numberOfSongs = Objects.requireNonNull(f.listFiles()).length;
+            debugger.file(numberOfSongs + " song" + (numberOfSongs != 1 ? "s" : "") + " found in " + dir);
+        } else {
+            debugger.file("Folder " + dir + " does not exist");
+        }
+    }
 
-                            DebugUtil.debug(DebugUtil.DebugReason.INFO, "Repeat mode: random");
+    public static void playInternal(String filePath) {
+        try {
+            AdvancedPlayer playMP3 = new AdvancedPlayer(MiscUtil.getResource(rootPath + filePath));
+            debugger.info("Now playing song: " + playingFile);
+            playMP3.play();
+        } catch (JavaLayerException e) {
+            e.printStackTrace();
+        }
+    }
 
-                            String[] pathNames = f.list();
-                            if (pathNames != null) {
-                                do {
-                                    playingFile = pathNames[(int) (Math.random() * numberOfSongs)];
-                                    FileInputStream fis = new FileInputStream(path + playingFile);
-                                    AdvancedPlayer playMP3 = new AdvancedPlayer(fis);
-                                    DebugUtil.debug(DebugUtil.DebugReason.INFO, "Now playing song: " + playingFile);
-                                    playMP3.play();
-                                } while (true);
-                            }
-                        }
-                    } else {
-                        DebugUtil.debug(DebugUtil.DebugReason.ERROR, "Folder " + path + " does not exist");
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                DebugUtil.debug(DebugUtil.DebugReason.ERROR, "Failed to play the file.");
+    public static void playLoop(String fileName) {
+        debugger.info("Repeat mode: one");
+        String[] pathNames = new File(rootPath).list();
+        do {
+            playingFile = fileName;
+            playInternal(playingFile);
+        } while (true);
+    }
+
+    // NONE NONE, RANDOM NONE, CHOSEN NONE, RANDOM ONE, RANDOM RANDOM, CHOSEN ONE, CHOSEN RANDOM
+
+    public static void playRandomLoop() {
+        if (numberOfSongs > 0) {
+            debugger.info("Repeat mode: random");
+            String[] pathNames = new File(rootPath).list();
+            if (pathNames != null) {
+                do {
+                    playingFile = pathNames[(int) (Math.random() * numberOfSongs)];
+                    playInternal(playingFile);
+                } while (true);
             }
-        }).start();
+        }
+    }
+
+    public static void stop() {
+
     }
 
     @SuppressWarnings("unused")
@@ -67,5 +84,4 @@ public class MusicUtil {
     private enum RepeatMode {
         NONE, ONE, RANDOM
     }
-
 }

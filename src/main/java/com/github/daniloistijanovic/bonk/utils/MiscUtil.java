@@ -2,9 +2,12 @@ package com.github.daniloistijanovic.bonk.utils;
 
 import com.github.daniloistijanovic.bonk.Main;
 
-import javax.swing.*;
-import java.awt.*;
+import javax.swing.JFrame;
+import java.awt.Dimension;
+import java.awt.Point;
+import java.awt.Toolkit;
 import java.io.InputStream;
+import java.net.URL;
 
 public class MiscUtil {
 
@@ -13,6 +16,10 @@ public class MiscUtil {
 
     public static InputStream getResource(String path) {
         return Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
+    }
+
+    public static URL getResourceURL(String path) {
+        return Thread.currentThread().getContextClassLoader().getResource(path);
     }
 
     public static void moveToCenter(JFrame frame) {
@@ -54,6 +61,6 @@ public class MiscUtil {
     }
 
     public static Point withinWindow(Point p) {
-        return new Point(trueModulo(p.x, Main.WINDOWSIZE.x), trueModulo(p.y, Main.WINDOWSIZE.y));
+        return new Point(trueModulo(p.x, Main.instance.WINDOWSIZE.x), trueModulo(p.y, Main.instance.WINDOWSIZE.y));
     }
 }

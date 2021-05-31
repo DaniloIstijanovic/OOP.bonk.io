@@ -1,16 +1,15 @@
 package com.github.daniloistijanovic.bonk;
-import com.github.daniloistijanovic.bonk.scenes.Login;
+
 import com.github.daniloistijanovic.bonk.utils.DebugUtil;
 import com.github.daniloistijanovic.bonk.utils.MiscUtil;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
-import java.awt.*;
+import java.awt.Point;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -18,9 +17,7 @@ import java.io.IOException;
  * pozvo ga preload
  */
 public class Main extends Application {
-
-    public static final boolean hocuMuziku = true;
-    public static final Point[] COMMONSIZES = {
+    private static final Point[] COMMONSIZES = {
         //4:3
         new Point(640, 480),
         new Point(800, 600),
@@ -34,63 +31,52 @@ public class Main extends Application {
         new Point(1280, 720),
         new Point(1920, 1080),
     };
-    public static Point WINDOWSIZE = COMMONSIZES[8];
-    public static final Font fontBig = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), Main.WINDOWSIZE.y * 0.1f);
-    public static final Font fontSmall = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), Main.WINDOWSIZE.y * 0.05f);
-    private static Stage stage;
-
-    public static Stage getStage() {
-        return stage;
-    }
+    public static Main instance;
+    public static boolean hocuMuziku = true;
+    public final Point WINDOWSIZE = COMMONSIZES[8];
+    public final Font fontBig = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.1f);
+    public final Font fontSmall = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.05f);
+    private Stage stage;
 
     public static void main(String[] args) {
 
-        if (DebugUtil.debugMethod == DebugUtil.DebugMethod.FILE) {
+        if (DebugUtil.debugger.debugMethod == DebugUtil.DebugMethod.FILE) {
             try {
-                DebugUtil.fw = new FileWriter("data/txt/debug.txt");
+                DebugUtil.debugger.fw = new FileWriter("data/txt/debug.txt");
             } catch (IOException e) {
-                DebugUtil.debugMethod = DebugUtil.DebugMethod.CONSOLE;
+                DebugUtil.debugger.debugMethod = DebugUtil.DebugMethod.CONSOLE;
                 e.printStackTrace();
-                DebugUtil.debug(DebugUtil.DebugReason.FILE, "Nece da radi debug u file ");
+                DebugUtil.debugger.file("Nece da radi debug u file ");
             }
-        }
-        if (args.length > 1) {
-            WINDOWSIZE = new Point(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         }
         launch();
     }
 
-    public static void setScene(Scene scene) {
+    public void changeScene(String fxml) throws IOException {
+        Parent pane = FXMLLoader.load(MiscUtil.getResourceURL(fxml));
+        stage.getScene().setRoot(pane);
+    }
+
+    public void setScene(Scene scene) {
         stage.setScene(scene);
     }
+
     @Override
-    public void start(Stage primaryStage) throws Exception{
-    		Parent root = FXMLLoader.load(getClass().getResource("Log.fxml"));
-    		primaryStage.setTitle("Welcome");
-    		primaryStage.setScene(new Scene(root,689,489));
-    		primaryStage.show();
-    	
-    	
+    public void start(Stage primaryStage) {
+        instance = this;
+        stage = primaryStage;
+        primaryStage.setResizable(false);
+        Parent root = null;
+        try {
+            root = FXMLLoader.load(MiscUtil.getResourceURL("fxml/Login.fxml"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        primaryStage.setTitle("Login Page");
+        primaryStage.setScene(new Scene(root, WINDOWSIZE.x, WINDOWSIZE.y));
+        primaryStage.show();
     }
-   /* @Override
-    public void start(Stage stage) {
-    	try {
-			
-    		
-			Main.stage = stage;
-	        stage.getIcons().add(new Image(MiscUtil.getResource("img/image.png")));
-	        stage.setTitle("Bonk");
 
-	        new Login();
-	        stage.show();
-		} catch (Exception e) {
-			
-			e.printStackTrace();
-		}
-        
-    }*/
-
-    //enum GAME ce se koristiti za proveru stanja da li je u igrici ili u main manu-u
     @SuppressWarnings("unused")
     public enum Menu {
         MAINMENU, OPTIONS, ROOM, GAME

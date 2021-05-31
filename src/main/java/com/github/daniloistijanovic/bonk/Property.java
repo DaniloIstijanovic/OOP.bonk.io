@@ -1,9 +1,9 @@
 package com.github.daniloistijanovic.bonk;
 
-import com.github.daniloistijanovic.bonk.utils.DebugUtil;
-
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
 /*
  * univerzalna klasa za automatsko menjanje promenljivih:
@@ -42,8 +42,7 @@ public class Property {
     });
 
     private Property(Builder builder) {
-        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
-            "Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+        debugger.memory("Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
         this.base = builder.base;
         this.delay = builder.delay;
         this.delta = builder.delta;
@@ -63,7 +62,7 @@ public class Property {
     public void start() {
         workingValue = base;
         if (delta == 0) {
-            DebugUtil.debug(DebugUtil.DebugReason.WARNING, "delta je 0, treba nesto uraditi");
+            debugger.warning("delta je 0, treba nesto uraditi");
         } else {
             Timer timer = new Timer();
 
@@ -85,8 +84,7 @@ public class Property {
     @Override
     protected void finalize() throws Throwable {
         super.finalize();
-        DebugUtil.debug(DebugUtil.DebugReason.MEMORY,
-            "Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
+        debugger.memory("Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
     }
 
     private int getIncreaseDelay() {
