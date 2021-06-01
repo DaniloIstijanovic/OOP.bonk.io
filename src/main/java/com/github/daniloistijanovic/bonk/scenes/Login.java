@@ -23,8 +23,8 @@ import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
 public class Login {
 
-    static Map<String, String> logininfo;
     private static final String userFile = "bonk-users.dat";
+    static Map<String, String> logininfo;
     private static Scanner x;
 
     static {

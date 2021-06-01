@@ -13,11 +13,9 @@ public class GameLogic {
     private static final int ySize = Main.instance.WINDOWSIZE.y;
     public final KeyCode[] keys;
     public final Color color;
-    private final Point2D playerPos = new Point2D.Double(Math.random() * xSize, Math.random() * ySize);
-    private final Point2D velocity = new Point2D.Double();
+    private final Circle circle = new Circle(20, Color.RED, 1, Math.random() * xSize, Math.random() * ySize);
     private final Property gravity = new Property.Builder(0.05).build();
     private final Property wind = new Property.Builder(0).delay(10).delta(0.002).limit(0.02).build();
-    private final int radius = 20;
     private final String name;
     public boolean[] keyAlreadyProcessed = new boolean[4];
     public boolean[] keyIsDown = new boolean[4];
@@ -33,16 +31,20 @@ public class GameLogic {
         gameover = true;
     }
 
+    public Circle getCircle() {
+        return circle;
+    }
+
     public String getName() {
         return name;
     }
 
     public Point2D getPlayerPos() {
-        return playerPos;
+        return new Point2D.Double(circle.getX(), circle.getY());
     }
 
     public int getRadius() {
-        return radius;
+        return circle.getRadius();
     }
 
     public void start() {
@@ -53,16 +55,16 @@ public class GameLogic {
         double speed = 0.2;
         switch (i) {
             case 0:
-                velocity.setLocation(velocity.getX() - speed, velocity.getY());
+                circle.addXVel(-speed);
                 break;
             case 1:
-                velocity.setLocation(velocity.getX() + speed, velocity.getY());
+                circle.addXVel(speed);
                 break;
             case 2:
-                velocity.setLocation(velocity.getX(), velocity.getY() + speed);
+                circle.addYVel(speed);
                 break;
             case 3:
-                velocity.setLocation(velocity.getX(), velocity.getY() - speed);
+                circle.addYVel(-speed);
                 break;
         }
     }
@@ -77,17 +79,13 @@ public class GameLogic {
                 updatePos();
 
                 try {
-                    Thread.sleep(10);
+                    Thread.sleep(1);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
 
             }
         }).start();
-    }
-
-    private Point2D getVelocity() {
-        return velocity;
     }
 
     private void processKeys() {
@@ -102,28 +100,26 @@ public class GameLogic {
     private void updatePos() {
 
         // terminal vel
-        if (velocity.getX() < -5) {
-            velocity.setLocation(-5, velocity.getY());
-        } else if (velocity.getX() > 5) {
-            velocity.setLocation(5, velocity.getY());
+        if (circle.getXVel() < -20) {
+            circle.setXVel(-20);
+        } else if (circle.getXVel() > 20) {
+            circle.setXVel(20);
         }
-
-        // terminal vel
-        if (velocity.getY() < -5) {
-            velocity.setLocation(velocity.getX(), -5);
-        } else if (velocity.getY() > 5) {
-            velocity.setLocation(velocity.getX(), 5);
+        if (circle.getYVel() < -20) {
+            circle.setYVel(-20);
+        } else if (circle.getYVel() > 20) {
+            circle.setYVel(20);
         }
         // update pos
-        playerPos.setLocation(playerPos.getX() + velocity.getX(), playerPos.getY() + velocity.getY());
+        circle.move(circle.getXVel(), circle.getYVel());
         // update vel
-        velocity.setLocation(velocity.getX() * 0.99 + wind.getWorkingValue(),
-            velocity.getY() * 0.99 + gravity.getWorkingValue());
-
+        circle.setXVel(circle.getXVel() * 0.99 + wind.getWorkingValue());
+        circle.setYVel(circle.getYVel() * 0.99 + gravity.getWorkingValue());
+/*
         // oob
         if (playerPos.getX() < 0) {
             velocity.setLocation(-velocity.getX(), velocity.getY());
-            playerPos.setLocation(0, playerPos.getY());
+            playerPos.setLocation(-playerPos.getX(), playerPos.getY());
         } else if (playerPos.getX() > xSize - getRadius() * 2) {
             velocity.setLocation(-velocity.getX(), velocity.getY());
             playerPos.setLocation(xSize - getRadius() * 2, playerPos.getY());
@@ -131,11 +127,13 @@ public class GameLogic {
         // oob
         if (playerPos.getY() < 0) {
             velocity.setLocation(velocity.getX(), -velocity.getY());
-            playerPos.setLocation(playerPos.getX(), 0);
+            playerPos.setLocation(playerPos.getX(), -playerPos.getY());
         } else if (playerPos.getY() > ySize - getRadius() * 2) {
             velocity.setLocation(velocity.getX(), -velocity.getY());
             playerPos.setLocation(playerPos.getX(), ySize - getRadius() * 2);
         }
+
+ */
     }
 
 }

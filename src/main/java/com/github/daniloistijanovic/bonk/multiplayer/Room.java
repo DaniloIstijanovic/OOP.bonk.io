@@ -21,6 +21,7 @@ public class Room {
     private static final int ySize = Main.instance.WINDOWSIZE.y;
     private static final ArrayList<KeyCode[]> preCon = new ArrayList<>();
     private static final ArrayList<Platform> platforms = new ArrayList<>();
+    private static boolean isRunning;
 
     static {
         preCon.add(new KeyCode[]{KeyCode.LEFT, KeyCode.RIGHT, KeyCode.DOWN, KeyCode.UP});
@@ -78,6 +79,11 @@ public class Room {
         //privremeno
         players.add(new GameLogic("glupan", preCon.get(0)));
         players.add(new GameLogic("jos jedan glupan", preCon.get(1)));
+        platforms.add(new Platform(300, 50, Color.DARKRED, 0.7, 100, 100));
+        platforms.add(new Platform(400, 40, Color.DARKRED, 0.7, 200, 300));
+        platforms.add(new Platform(500, 30, Color.DARKRED, 0.7, 300, 500));
+        platforms.add(new Platform(600, 20, Color.DARKRED, 0.7, 400, 700));
+
     }
 
     public void addPlayer(GameLogic player) {
@@ -93,6 +99,37 @@ public class Room {
             player.start();
         }
         MusicUtil.playLoopInternal("sway.mp3");
+        isRunning = true;
+        new Thread(() -> {
+            while (isRunning) {
+                //sudaranje loptica
+                for (int i = 0; i < players.size(); i++) {
+                    Circle c1 = players.get(i).getCircle();
+                    for (int j = i + 1; j < players.size(); j++) {
+                        Circle c2 = players.get(j).getCircle();
+                        if (c1.isCollide(c2)) {
+                            c1.onCollide(c2);
+                        }
+                    }
+                }
+
+                //sudaranje lopte i platforme
+                for (GameLogic g : players) {
+                    Circle lopta = g.getCircle();
+                    for (Platform p : platforms) {
+                        if (lopta.isCollide(p)) {
+                            lopta.onCollide(p);
+                        }
+                    }
+                }
+
+                try {
+                    Thread.sleep(1);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 
     public void stop() {
@@ -100,16 +137,21 @@ public class Room {
             player.die();
         }
         MusicUtil.stopThis();
+        isRunning = false;
     }
 
     private void draw() {
         gc.clearRect(0, 0, xSize, ySize);
-        gc.setFill(Color.DARKBLUE);
+        gc.setFill(Color.CORAL);
         gc.fillRect(0, 0, xSize, ySize);
         for (GameLogic p : players) {
             gc.setFill(p.color);
             gc.fillOval((int) p.getPlayerPos().getX(), (int) p.getPlayerPos().getY(), p.getRadius() * 2, p.getRadius() * 2);
             gc.fillText(p.getName(), (int) p.getPlayerPos().getX(), (int) p.getPlayerPos().getY());
+        }
+        for (Platform p : platforms) {
+            gc.setFill(p.getColor());
+            gc.fillRect(p.getX(), p.getY(), p.getWidth(), p.getHeight());
         }
     }
 }
