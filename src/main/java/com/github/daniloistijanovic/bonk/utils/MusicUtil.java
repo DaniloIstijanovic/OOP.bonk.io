@@ -9,21 +9,13 @@ import java.util.Objects;
 import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
 public class MusicUtil {
+    public static Thread currentlyPlaying;
     private static String rootPath = "music/";
     private static int numberOfSongs;
     private static String playingFile;
 
     //staticka klasa
     private MusicUtil() {
-    }
-
-    @SuppressWarnings("unused")
-    public static String getCurrentPlayingFile() {
-        return playingFile;
-    }
-
-    public static void init() {
-
     }
 
     public static void loadFromDirectory(String dir) {
@@ -39,21 +31,24 @@ public class MusicUtil {
 
     public static void playInternal(String filePath) {
         try {
-            AdvancedPlayer playMP3 = new AdvancedPlayer(MiscUtil.getResource(rootPath + filePath));
+            AdvancedPlayer ap = new AdvancedPlayer(MiscUtil.getResource(rootPath + filePath));
             debugger.info("Now playing song: " + playingFile);
-            playMP3.play();
+            ap.play();
         } catch (JavaLayerException e) {
             e.printStackTrace();
         }
     }
 
-    public static void playLoop(String fileName) {
+    public static void playLoopInternal(String fileName) {
+        stopThis();
         debugger.info("Repeat mode: one");
-        String[] pathNames = new File(rootPath).list();
-        do {
-            playingFile = fileName;
-            playInternal(playingFile);
-        } while (true);
+        currentlyPlaying = new Thread(() -> {
+            do {
+                playingFile = fileName;
+                playInternal(playingFile);
+            } while (true);
+        });
+        currentlyPlaying.start();
     }
 
     // NONE NONE, RANDOM NONE, CHOSEN NONE, RANDOM ONE, RANDOM RANDOM, CHOSEN ONE, CHOSEN RANDOM
@@ -71,17 +66,11 @@ public class MusicUtil {
         }
     }
 
-    public static void stop() {
-
-    }
-
-    @SuppressWarnings("unused")
-    private enum PlayMode {
-        NONE, RANDOM, CHOSEN
-    }
-
-    @SuppressWarnings("unused")
-    private enum RepeatMode {
-        NONE, ONE, RANDOM
+    public static void stopThis() {
+        // ako radi bas me briga nemam volje da se cimam sa ovim
+        if (currentlyPlaying != null && currentlyPlaying.isAlive()) {
+            currentlyPlaying.stop();
+            debugger.info("Stopped music");
+        }
     }
 }

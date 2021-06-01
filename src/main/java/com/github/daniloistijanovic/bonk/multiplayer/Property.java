@@ -1,9 +1,7 @@
-package com.github.daniloistijanovic.bonk;
+package com.github.daniloistijanovic.bonk.multiplayer;
 
 import java.util.Timer;
 import java.util.TimerTask;
-
-import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
 /*
  * univerzalna klasa za automatsko menjanje promenljivih:
@@ -30,8 +28,8 @@ public class Property {
         @Override
         public void run() {
             while (mode ? (getWorkingValue() < getLimit()) : (getLimit() < getWorkingValue())) {
-                tick();
                 try {
+                    tick();
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -42,7 +40,6 @@ public class Property {
     });
 
     private Property(Builder builder) {
-        debugger.memory("Instantiate " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
         this.base = builder.base;
         this.delay = builder.delay;
         this.delta = builder.delta;
@@ -59,11 +56,13 @@ public class Property {
         thread.interrupt();
     }
 
+    public void resume() {
+        thread.start();
+    }
+
     public void start() {
         workingValue = base;
-        if (delta == 0) {
-            debugger.warning("delta je 0, treba nesto uraditi");
-        } else {
+        if (delta != 0) {
             Timer timer = new Timer();
 
             TimerTask task = new TimerTask() {
@@ -75,16 +74,6 @@ public class Property {
 
             timer.schedule(task, getIncreaseDelay() * 1000L);
         }
-    }
-
-    public void unPause() {
-        thread.start();
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        debugger.memory("Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
     }
 
     private int getIncreaseDelay() {
@@ -106,7 +95,7 @@ public class Property {
         private double delta;
         private double limit;
 
-        Builder(double base) {
+        public Builder(double base) {
             this.base = base;
         }
 
@@ -134,5 +123,4 @@ public class Property {
             return this;
         }
     }
-
 }

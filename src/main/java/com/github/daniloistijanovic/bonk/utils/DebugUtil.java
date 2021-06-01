@@ -5,12 +5,10 @@ import java.io.IOException;
 
 public class DebugUtil {
 
-    public static DebugUtil debugger = new DebugUtil();
-    public final boolean[] debugReasonsIListenTo = {true, true, true, true, true, true};
+    public static final DebugUtil debugger = new DebugUtil();
     public DebugMethod debugMethod = DebugMethod.CONSOLE;
     public FileWriter fw;
 
-    // ovo je u potpunosti staticka klasa
     private DebugUtil() {
     }
 
@@ -30,17 +28,13 @@ public class DebugUtil {
         debug(DebugReason.INFO, s);
     }
 
-    public void memory(String s) {
-        debug(DebugReason.MEMORY, s);
-    }
-
     public void warning(String s) {
         debug(DebugReason.WARNING, s);
     }
 
     private void debug(DebugReason reason, String string) {
-        if (iAmListeningTo(reason)) {
-            String generated = "[" + reason + "] " + string;
+        if (reason.yes) {
+            final String generated = "[" + reason + "] " + string;
             switch (debugMethod) {
                 case NONE:
                     return;
@@ -53,16 +47,11 @@ public class DebugUtil {
                         fw.flush();
                     } catch (IOException e) {
                         debugMethod = DebugMethod.CONSOLE;
-                        e.printStackTrace();
-                        debug(DebugReason.FILE, "CRKO JE DEBUG U FILE :(");
+                        file("CRKO JE DEBUG U FILE :( " + e.getMessage());
                     }
                     break;
             }
         }
-    }
-
-    private boolean iAmListeningTo(DebugReason reason) {
-        return debugReasonsIListenTo[reason.ordinal()];
     }
 
     public enum DebugMethod {
@@ -70,7 +59,17 @@ public class DebugUtil {
     }
 
     public enum DebugReason {
-        INFO, WARNING, ERROR, CRITICAL, MEMORY, FILE
+        INFO(true),
+        WARNING(true),
+        ERROR(true),
+        CRITICAL(true),
+        FILE(true);
+
+        public final boolean yes;
+
+        DebugReason(boolean yes) {
+            this.yes = yes;
+        }
     }
 
 }

@@ -3,6 +3,7 @@ package com.github.daniloistijanovic.bonk;
 import com.github.daniloistijanovic.bonk.utils.DebugUtil;
 import com.github.daniloistijanovic.bonk.utils.MiscUtil;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -13,9 +14,6 @@ import java.awt.Point;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/*
- * pozvo ga preload
- */
 public class Main extends Application {
     private static final Point[] COMMONSIZES = {
         //4:3
@@ -32,33 +30,46 @@ public class Main extends Application {
         new Point(1920, 1080),
     };
     public static Main instance;
-    public static boolean hocuMuziku = true;
     public final Point WINDOWSIZE = COMMONSIZES[8];
+    @Deprecated
     public final Font fontBig = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.1f);
+    @Deprecated
     public final Font fontSmall = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.05f);
     private Stage stage;
 
     public static void main(String[] args) {
-
-        if (DebugUtil.debugger.debugMethod == DebugUtil.DebugMethod.FILE) {
-            try {
-                DebugUtil.debugger.fw = new FileWriter("data/txt/debug.txt");
-            } catch (IOException e) {
-                DebugUtil.debugger.debugMethod = DebugUtil.DebugMethod.CONSOLE;
-                e.printStackTrace();
-                DebugUtil.debugger.file("Nece da radi debug u file ");
-            }
+        switch (DebugUtil.debugger.debugMethod) {
+            case FILE:
+                try {
+                    DebugUtil.debugger.fw = new FileWriter("bonk-debug.txt");
+                } catch (IOException e) {
+                    DebugUtil.debugger.debugMethod = DebugUtil.DebugMethod.CONSOLE;
+                    e.printStackTrace();
+                    DebugUtil.debugger.file("Nece da radi debug u file ");
+                }
+                break;
+            case CONSOLE:
+            case NONE:
+                break;
+            default:
+                throw new InternalError();
         }
         launch();
     }
 
     public void changeScene(String fxml) throws IOException {
-        Parent pane = FXMLLoader.load(MiscUtil.getResourceURL(fxml));
-        stage.getScene().setRoot(pane);
+        Parent pane = FXMLLoader.load(MiscUtil.getResourceURL("fxml/" + fxml));
+        Scene sc = new Scene(pane);
+        stage.setScene(sc);
+        sc.setRoot(pane);
     }
 
     public void setScene(Scene scene) {
         stage.setScene(scene);
+    }
+
+    public void setTitle(String s) {
+        stage.setTitle(s);
     }
 
     @Override
@@ -66,21 +77,18 @@ public class Main extends Application {
         instance = this;
         stage = primaryStage;
         primaryStage.setResizable(false);
-        Parent root = null;
         try {
-            root = FXMLLoader.load(MiscUtil.getResourceURL("fxml/Login.fxml"));
+            changeScene("Login.fxml");
         } catch (IOException e) {
             e.printStackTrace();
         }
         primaryStage.setTitle("Login Page");
-        primaryStage.setScene(new Scene(root, WINDOWSIZE.x, WINDOWSIZE.y));
         primaryStage.show();
+
+        Platform.setImplicitExit(true);
+        primaryStage.setOnCloseRequest(e -> {
+            Platform.exit();
+            System.exit(0);
+        });
     }
-
-    @SuppressWarnings("unused")
-    public enum Menu {
-        MAINMENU, OPTIONS, ROOM, GAME
-    }
-
-
 } 

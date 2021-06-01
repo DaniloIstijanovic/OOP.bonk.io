@@ -18,8 +18,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
-
 /*
  * render za pocetni meni
  */
@@ -100,12 +98,6 @@ public class MainMenu {
         playButton.draw(gc);
         optButton.draw(gc);
         quitButton.draw(gc);
-    }
-
-    @Override
-    protected void finalize() throws Throwable {
-        super.finalize();
-        debugger.memory("Finalize " + getClass().getSimpleName() + "@" + Integer.toHexString(hashCode()));
     }
 
     private void mutirajZmijicu(List<Point> zmijica, int n) {

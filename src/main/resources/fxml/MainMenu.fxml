@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ButtonBar?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.effect.Blend?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<BorderPane maxHeight="0.0" maxWidth="0.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.daniloistijanovic.bonk.scenes.MainMenu">
+<BorderPane maxHeight="0.0" maxWidth="0.0" minHeight="400.0" minWidth="600.0" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.github.daniloistijanovic.bonk.scenes.MainMenu">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -24,7 +20,7 @@
                   <Font size="47.0" />
                </font>
             </Label>
-            <Button fx:id="play" alignment="CENTER" layoutX="231.0" layoutY="115.0" mnemonicParsing="false" onAction="#launchSinglePlayer" prefHeight="42.0" prefWidth="123.0" style="-fx-border-color: #000; -fx-background-color: #8c8a89;" text="Play" textFill="#a99ef5">
+            <Button fx:id="play" alignment="CENTER" layoutX="167.0" layoutY="115.0" mnemonicParsing="false" onAction="#launchSinglePlayer" prefHeight="42.0" prefWidth="123.0" style="-fx-border-color: #000; -fx-background-color: #8c8a89;" text="Singleplayer" textFill="#a99ef5">
                <effect>
                   <Blend mode="BLUE" />
                </effect>
@@ -49,6 +45,10 @@
                   <Font size="15.0" />
                </font>
             </Button>
+            <Button fx:id="multiplayer" layoutX="293.0" layoutY="115.0" mnemonicParsing="false" onAction="#playMultiplayer" prefHeight="42.0" prefWidth="123.0" style="-fx-border-color: #000; -fx-background-color: #8c8a89;" text="Multiplayer" textFill="#a99ef5">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
          </children>
       </AnchorPane>
    </center>

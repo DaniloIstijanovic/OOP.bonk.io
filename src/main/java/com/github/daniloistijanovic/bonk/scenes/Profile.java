@@ -12,6 +12,6 @@ public class Profile {
     private Button back;
 
     public void BackMain(ActionEvent event) throws IOException {
-        Main.instance.changeScene("fxml/MainMenu.fxml");
+        Main.instance.changeScene("MainMenu.fxml");
     }
 }

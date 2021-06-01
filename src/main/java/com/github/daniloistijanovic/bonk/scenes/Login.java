@@ -9,20 +9,49 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
 
+import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
+
 public class Login {
 
-    static final Map<String, String> logininfo = new HashMap<>();
+    static Map<String, String> logininfo;
+    private static final String userFile = "bonk-users.dat";
     private static Scanner x;
 
     static {
-        logininfo.put("123", "456");
-        logininfo.put("abc", "def");
-        logininfo.put("xXxEpicGamerxXx", "fortnite");
+        try {
+            File load = new File(userFile);
+            FileInputStream fis = new FileInputStream(load);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            logininfo = (HashMap<String, String>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (Exception e) {
+            //umesto ovoga treba da napravi prazan fajl ali evo za sad trpa jednog usera jer jos nema register
+            debugger.file("Greska u ucitavanju usera: " + e.getMessage());
+            logininfo = new HashMap<>();
+            logininfo.put("123", "456");
+            try {
+                File save = new File(userFile);
+                FileOutputStream fos = new FileOutputStream(save);
+                ObjectOutputStream oos = new ObjectOutputStream(fos);
+                oos.writeObject(logininfo);
+                oos.flush();
+                oos.close();
+                fos.close();
+            } catch (Exception e2) {
+                debugger.file("Greska u cuvanju usera: " + e2.getMessage());
+            }
+        }
     }
 
     @FXML
@@ -38,7 +67,7 @@ public class Login {
 
     }
 
-    public void userLogIn(ActionEvent event) throws IOException {
+    public void userLogIn(ActionEvent event) {
         checkLogin();
 
     }
@@ -52,10 +81,9 @@ public class Login {
             if (logininfo.get(userID).equals(pass)) {
                 wrongLogIn.setText("Success!");
                 try {
-                    Main.instance.changeScene("fxml/MainMenu.fxml");
-                    new Thread(() -> {
-                        MusicUtil.playLoop("Industrial.mp3");
-                    }).start();
+                    Main.instance.changeScene("MainMenu.fxml");
+                    Main.instance.setTitle("Main Menu");
+                    MusicUtil.playLoopInternal("Industrial.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
