@@ -17,7 +17,10 @@
                   <Image url="@../img/bonk.png" />
                </image>
             </ImageView>
-            <Label fx:id="userprint" layoutX="165.0" layoutY="51.0" prefHeight="34.0" prefWidth="168.0" style="-fx-background-color: #fff;" />
+            <Label fx:id="userprint" layoutX="165.0" layoutY="51.0" prefHeight="34.0" prefWidth="0.0" style="-fx-background-color: #fff;">
+               <font>
+                  <Font size="18.0" />
+               </font></Label>
             <Label layoutX="33.0" layoutY="49.0" prefHeight="39.0" prefWidth="115.0" text="Username:" textFill="WHITE">
                <font>
                   <Font size="22.0" />

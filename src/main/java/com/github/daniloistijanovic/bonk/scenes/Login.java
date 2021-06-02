@@ -1,5 +1,4 @@
 package com.github.daniloistijanovic.bonk.scenes;
-
 import com.github.daniloistijanovic.bonk.Main;
 import com.github.daniloistijanovic.bonk.utils.MusicUtil;
 import javafx.event.ActionEvent;
@@ -23,8 +22,8 @@ import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
 public class Login {
 
-    private static final String userFile = "bonk-users.dat";
     static Map<String, String> logininfo;
+    private static final String userFile = "bonk-users.dat";
     private static Scanner x;
 
     static {
@@ -62,25 +61,30 @@ public class Login {
     private TextField username;
     @FXML
     private PasswordField password;
+    @FXML
+    private Button button2;
 
     public Login() {
 
     }
-
+    public void userRegister(ActionEvent event) {
+    	checkRegister();
+    	
+    }
     public void userLogIn(ActionEvent event) {
         checkLogin();
 
     }
 
     private void checkLogin() {
-        String st, stl;
-
+      
         String userID = username.getText();
         String pass = password.getText();
         if (logininfo.containsKey(userID)) {
             if (logininfo.get(userID).equals(pass)) {
                 wrongLogIn.setText("Success!");
                 try {
+                	Main.instance.userID = userID;
                     Main.instance.changeScene("MainMenu.fxml");
                     Main.instance.setTitle("Main Menu");
                     MusicUtil.playLoopInternal("Industrial.mp3");
@@ -93,5 +97,29 @@ public class Login {
         } else {
             wrongLogIn.setText("Wrong username or password!");
         }
+    }
+    private void checkRegister(){
+    	String userID =  username.getText();
+    	String pass = password.getText();
+    	 if (logininfo.containsKey(userID)) {
+    		 wrongLogIn.setText("Username already exists");
+    		 
+                 
+    }else if (username.getText().isEmpty() && password.getText().isEmpty()) {
+             wrongLogIn.setText("Enter the data.");
+         
+     }else{
+    	 logininfo.put(userID,pass);
+    	 wrongLogIn.setText("Success!");
+         try {
+        	 Main.instance.userID = userID;
+             Main.instance.changeScene("MainMenu.fxml");
+             Main.instance.setTitle("Main Menu");
+             MusicUtil.playLoopInternal("Industrial.mp3");
+         } catch (IOException e) {
+             e.printStackTrace();
+         }
+    	 
+     }
     }
 }

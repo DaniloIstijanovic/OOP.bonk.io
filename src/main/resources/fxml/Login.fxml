@@ -36,7 +36,7 @@
             </Label>
             <TextField fx:id="username" layoutX="108.0" layoutY="145.0" />
             <PasswordField fx:id="password" layoutX="108.0" layoutY="194.0" />
-            <Button fx:id="button" layoutX="174.0" layoutY="251.0" mnemonicParsing="false" onAction="#userLogIn" prefHeight="41.0" prefWidth="96.0" style="-fx-background-color: #fff;" text="Login">
+            <Button fx:id="button" layoutX="34.0" layoutY="249.0" mnemonicParsing="false" onAction="#userLogIn" prefHeight="41.0" prefWidth="96.0" style="-fx-background-color: #fff;" text="Login">
                <font>
                   <Font size="22.0" />
                </font>
@@ -45,6 +45,11 @@
                <font>
                   <Font size="15.0" />
                </font></Label>
+            <Button fx:id="button2" layoutX="141.0" layoutY="249.0" mnemonicParsing="false" onAction="#userRegister" prefHeight="46.0" prefWidth="142.0" style="-fx-background-color: #fff;" text="Register">
+               <font>
+                  <Font size="22.0" />
+               </font>
+            </Button>
          </children>
       </AnchorPane>
    </center>

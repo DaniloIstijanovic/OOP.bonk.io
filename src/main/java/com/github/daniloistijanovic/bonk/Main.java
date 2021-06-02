@@ -29,6 +29,7 @@ public class Main extends Application {
         new Point(1280, 720),
         new Point(1920, 1080),
     };
+    public String userID;
     public static Main instance;
     public final Point WINDOWSIZE = COMMONSIZES[1];
     @Deprecated
