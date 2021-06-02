@@ -1,3 +1,5 @@
+package com.github.daniloistijanovic.bonk;
+
 import java.util.ArrayList;
 import java.util.Formatter;
 
