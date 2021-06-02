@@ -1,3 +1,4 @@
+package com.github.daniloistijanovic.bonk;
 
 public class Kvadrat {
     
