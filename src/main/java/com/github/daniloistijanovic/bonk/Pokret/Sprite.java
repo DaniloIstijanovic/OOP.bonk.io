@@ -1,4 +1,4 @@
-import java.nio.channels.NonReadableChannelException;
+package com.github.daniloistijanovic.bonk;
 
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
