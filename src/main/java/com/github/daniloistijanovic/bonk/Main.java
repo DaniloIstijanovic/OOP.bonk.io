@@ -30,7 +30,7 @@ public class Main extends Application {
         new Point(1920, 1080),
     };
     public static Main instance;
-    public final Point WINDOWSIZE = COMMONSIZES[8];
+    public final Point WINDOWSIZE = COMMONSIZES[1];
     @Deprecated
     public final Font fontBig = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.1f);
     @Deprecated
