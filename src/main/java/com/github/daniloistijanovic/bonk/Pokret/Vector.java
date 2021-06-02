@@ -1,3 +1,5 @@
+package com.github.daniloistijanovic.bonk;
+
 public class Vector {
     
     public double x;
