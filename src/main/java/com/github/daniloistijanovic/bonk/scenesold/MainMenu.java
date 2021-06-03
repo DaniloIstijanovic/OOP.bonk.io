@@ -2,7 +2,6 @@ package com.github.daniloistijanovic.bonk.scenesold;
 
 import com.github.daniloistijanovic.bonk.Main;
 import com.github.daniloistijanovic.bonk.MyButton;
-import com.github.daniloistijanovic.bonk.singleplayer.Singleplayer;
 import com.github.daniloistijanovic.bonk.utils.MiscUtil;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -67,7 +66,7 @@ public class MainMenu {
             int my = (int) e.getY();
 
             if (MainMenu.playButton.isInsideButton(mx, my)) {
-                new Singleplayer().start();
+                //new Singleplayer().start();
             } else if (MainMenu.optButton.isInsideButton(mx, my)) {
             } else if (MainMenu.quitButton.isInsideButton(mx, my)) {
                 System.exit(0);

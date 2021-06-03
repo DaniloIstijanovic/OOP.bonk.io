@@ -14,13 +14,13 @@ public class GameLogic {
     private static final int ySize = Main.instance.WINDOWSIZE.y;
     public final KeyCode[] keys;
     public final Color color;
+    public final boolean[] keyAlreadyProcessed = new boolean[4];
+    public final boolean[] keyIsDown = new boolean[4];
     private final Circle circle = new Circle(20, Color.RED, 1, Math.random() * xSize, Math.random() * ySize);
     private final Property gravity = new Property.Builder(0.05).build();
     private final double glupostZaVetar = Math.random() * 0.002 - 0.004;
     private final Property wind = new Property.Builder(0).delay(10).delta(glupostZaVetar / 10).limit(glupostZaVetar).build();
     private final String name;
-    public boolean[] keyAlreadyProcessed = new boolean[4];
-    public boolean[] keyIsDown = new boolean[4];
     private boolean gameover = false;
     private double health;
 
@@ -63,7 +63,7 @@ public class GameLogic {
     }
 
     public void start() {
-        health = 1000;
+        health = 100;
         gameLoop();
     }
 

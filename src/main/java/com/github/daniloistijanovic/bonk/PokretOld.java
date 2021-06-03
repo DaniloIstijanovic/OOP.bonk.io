@@ -12,7 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.util.Duration;
 
 @Deprecated
-public class Pokret {
+public class PokretOld {
 
     private static GraphicsContext gc;
     final int gravitacija = 1;
@@ -24,7 +24,7 @@ public class Pokret {
     int velY = 0;
 
 
-    public Pokret() {
+    public PokretOld() {
 
         BorderPane pane = new BorderPane();
         javafx.scene.canvas.Canvas canvas = new Canvas(Main.instance.WINDOWSIZE.x, Main.instance.WINDOWSIZE.y);

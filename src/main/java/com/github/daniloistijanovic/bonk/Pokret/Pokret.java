@@ -1,13 +1,8 @@
-package com.github.daniloistijanovic.bonk;
+package com.github.daniloistijanovic.bonk.Pokret;
 
-import java.util.ArrayList;
-import java.util.Formatter;
-
-import javax.xml.crypto.dsig.keyinfo.KeyName;
-
+import com.github.daniloistijanovic.bonk.Main;
+import com.github.daniloistijanovic.bonk.utils.MusicUtil;
 import javafx.animation.AnimationTimer;
-import javafx.application.Application;
-import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -15,46 +10,38 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
-import java.io.*;
+
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 
+import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
-public class Pokret extends Application{
-
-    public static void main(String[] args){
-        try{
-            launch(args);
-        }
-        catch(Exception error){
-            error.printStackTrace();
-        }
-        finally{
-            System.exit(0);
-        }
-    }
+public class Pokret {
 
     int score;
     int score2;
 
-    public void start(Stage mainStage) throws IOException{
-        mainStage.setTitle("Boonk.io");
-        
+    public void start() {
         BorderPane root = new BorderPane();
-        Scene mainScene = new Scene(root);
-        mainStage.setScene(mainScene);
-        
+        Scene mainScene = new Scene(root, 800, 600);
+        Main.instance.setScene(mainScene);
+        Main.instance.setTitle("Singleplayer");
+
         Canvas canvas = new Canvas(800, 600);
         GraphicsContext context = canvas.getGraphicsContext2D();
         root.setCenter(canvas);
 
-        ArrayList<String> keyPressedList = new ArrayList<String>();
-        ArrayList<String> keyPressedListJednom = new ArrayList<String>();
+        ArrayList<String> keyPressedList = new ArrayList<>();
+        ArrayList<String> keyPressedListJednom = new ArrayList<>();
 
         mainScene.setOnKeyPressed(
-            (KeyEvent event) ->{
+            (KeyEvent event) -> {
                 String keyName = event.getCode().toString();
-                if(!keyPressedList.contains(keyName)){
+                if (!keyPressedList.contains(keyName)) {
                     keyPressedList.add(keyName);
                     keyPressedListJednom.add(keyName);
                 }
@@ -65,14 +52,12 @@ public class Pokret extends Application{
         score2 = 0;
 
         mainScene.setOnKeyReleased(
-            (KeyEvent event) ->{
+            (KeyEvent event) -> {
                 String keyName = event.getCode().toString();
-                if(keyPressedList.contains(keyName)){
-                    keyPressedList.remove(keyName);
-                }
+                keyPressedList.remove(keyName);
             }
         );
-        
+
         Sprite background = new Sprite("background.png");
         background.position.set(400, 300);
 
@@ -99,11 +84,11 @@ public class Pokret extends Application{
         Sprite ball = new Sprite("RedBall1.png");
         ball.position.set(100, 500);
 
-        ArrayList<Sprite> enemyList = new ArrayList<Sprite>();
+        ArrayList<Sprite> enemyList = new ArrayList<>();
 
         int enemyCount = 5;
 
-        for(int n = 0; n < enemyCount; n++){
+        for (int n = 0; n < enemyCount; n++) {
             Sprite enemy = new Sprite("enemy1.png");
             double x = 500 * Math.random() + 300;
             double y = 400 * Math.random() + 100;
@@ -115,11 +100,11 @@ public class Pokret extends Application{
 
         }
 
-        ArrayList<Sprite> coinList = new ArrayList<Sprite>();
+        ArrayList<Sprite> coinList = new ArrayList<>();
 
         int coinCount = 6;
 
-        for(int n = 0; n < coinCount; n++){
+        for (int n = 0; n < coinCount; n++) {
             Sprite coin = new Sprite("coin.png");
             double x = 700 * Math.random() + 300;
             double y = 400 * Math.random() + 100;
@@ -127,50 +112,59 @@ public class Pokret extends Application{
             coinList.add(coin);
 
         }
-        
-        ArrayList<Sprite> heartList = new ArrayList<Sprite>();
+
+        ArrayList<Sprite> heartList = new ArrayList<>();
 
         int hartCount = 3;
 
-        for(int n = 0; n < hartCount; n++){
+        for (int n = 0; n < hartCount; n++) {
             Sprite heart = new Sprite("heart.png");
-            double x = 800 - (n*45) - 30;
+            double x = 800 - (n * 45) - 30;
             double y = 45;
             heart.position.set(x, y);
             heartList.add(heart);
         }
 
         File file = new File("score.txt");
-        FileWriter fw = new FileWriter(file);
-        PrintWriter pw = new PrintWriter(file);
+        try {
+            FileWriter fw = new FileWriter(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PrintWriter pw = null;
+        try {
+            pw = new PrintWriter(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
 
-        AnimationTimer gameloop = new AnimationTimer(){
-            public void handle(long nanotime){
+        PrintWriter finalPw = pw;
+        AnimationTimer gameloop = new AnimationTimer() {
+            public void handle(long nanotime) {
 
-                if(keyPressedList.contains("LEFT")){
+                if (keyPressedList.contains("LEFT")) {
                     ball.rotation -= 6;
                     ball.velocity.set(-150, 0);
-                }else{
+                } else {
 
-                    if(keyPressedList.contains("RIGHT")){
+                    if (keyPressedList.contains("RIGHT")) {
                         ball.rotation += 6;
                         ball.velocity.set(150, 0);
-                    }else{
-                        if(keyPressedListJednom.contains("UP")){
+                    } else {
+                        if (keyPressedListJednom.contains("UP")) {
                             int i = 1;
-                            for(i = 1; i < 100; i++){
-                                ball.velocity.set(0, -30*i);
+                            for (i = 1; i < 100; i++) {
+                                ball.velocity.set(0, -30 * i);
                             }
-                        }else{
-                
-                            if(keyPressedList.contains("DOWN")){
+                        } else {
+
+                            if (keyPressedList.contains("DOWN")) {
                                 ball.velocity.set(0, 150);
-                            }else{
-                                if(keyPressedList.contains("SPACE")){
+                            } else {
+                                if (keyPressedList.contains("SPACE")) {
                                     ball.velocity.setLength(150);
                                     ball.velocity.setUgao(ball.rotation);
-                                }
-                                else{
+                                } else {
                                     ball.velocity.setLength(0);
                                 }
                             }
@@ -178,51 +172,51 @@ public class Pokret extends Application{
                     }
                 }
 
-                if(ball.position.y + 25 > 385 && ball.position.y - 25 < 420 && ball.position.x + 25 > 130 && ball.position.x - 25 < 468){
-                    if(ball.position.y + 25 > 385){
+                if (ball.position.y + 25 > 385 && ball.position.y - 25 < 420 && ball.position.x + 25 > 130 && ball.position.x - 25 < 468) {
+                    if (ball.position.y + 25 > 385) {
                         ball.position.y = 360;
                     }
                 }
 
-                if(ball.position.y + 25 > 530){
+                if (ball.position.y + 25 > 530) {
                     ball.position.y = 515;
                 }
 
-                if(ball.position.y + 25 > 282 && ball.position.y - 25 < 322 && ball.position.x + 25 > 615 && ball.position.x - 25 < 785){
-                    if(ball.position.y + 25 > 282){
+                if (ball.position.y + 25 > 282 && ball.position.y - 25 < 322 && ball.position.x + 25 > 615 && ball.position.x - 25 < 785) {
+                    if (ball.position.y + 25 > 282) {
                         ball.position.y = 267;
                     }
                 }
 
-                if(ball.position.y + 25 > 182 && ball.position.y - 25 < 220 && ball.position.x + 25 > 459 && ball.position.x - 25 < 541){
-                    if(ball.position.y + 25 > 182){
+                if (ball.position.y + 25 > 182 && ball.position.y - 25 < 220 && ball.position.x + 25 > 459 && ball.position.x - 25 < 541) {
+                    if (ball.position.y + 25 > 182) {
                         ball.position.y = 167;
                     }
                 }
 
                 keyPressedListJednom.clear();
 
-                ball.update(1/60.0);
+                ball.update(1 / 60.0);
 
-                for(Sprite heart : heartList){
-                    heart.update(1/60.0);
+                for (Sprite heart : heartList) {
+                    heart.update(1 / 60.0);
                 }
 
-                for(Sprite enemy : enemyList){
-                    enemy.update(1/60.0);
+                for (Sprite enemy : enemyList) {
+                    enemy.update(1 / 60.0);
                 }
 
-                for(Sprite coin : coinList){
-                    coin.update(1/60.0);
+                for (Sprite coin : coinList) {
+                    coin.update(1 / 60.0);
                 }
 
-                for(Sprite coin : coinList){
-                    coin.update(1/60.0);
+                for (Sprite coin : coinList) {
+                    coin.update(1 / 60.0);
                 }
 
-                for( int coinBr = 0; coinBr < coinList.size(); coinBr++){
+                for (int coinBr = 0; coinBr < coinList.size(); coinBr++) {
                     Sprite coin = coinList.get(coinBr);
-                    if(ball.overlaps(coin)){
+                    if (ball.overlaps(coin)) {
                         coinList.remove(coinBr);
                         score += 100;
                         score2 += 100;
@@ -230,19 +224,29 @@ public class Pokret extends Application{
                 }
 
                 int hr = 0;
-                for( int enemyBr = 0; enemyBr < enemyList.size(); enemyBr++){
-                    Sprite enemy = enemyList.get(enemyBr);
-                    if(ball.overlaps(enemy)){
-                        if(heartList.size() > 0 ){
+                for (Sprite enemy : enemyList) {
+                    if (ball.overlaps(enemy)) {
+                        if (heartList.size() > 0) {
                             score2 -= 10;
-                            if(score2 < 0){
-                              heartList.remove(hr);
-                              hr++;
-                              score2 = 100;
-                              if(hr == 3){
-                                  pw.println(score);
-                                  pw.close();
-                              }
+                            if (score2 < 0) {
+                                heartList.remove(hr);
+                                hr++;
+                                score2 = 100;
+                                if (hr == 3) {
+                                    finalPw.println(score);
+                                    finalPw.close();
+                                }
+                            }
+                        } else {
+                            debugger.info("Game over");
+                            Main.instance.loggedInUser.tryToSetHighScore(score);
+                            this.stop();
+                            try {
+                                Main.instance.changeScene("MainMenu.fxml");
+                                Main.instance.setTitle("Main Menu");
+                                MusicUtil.playLoopInternal("Industrial.mp3");
+                            } catch (IOException e) {
+                                e.printStackTrace();
                             }
                         }
                     }
@@ -254,18 +258,18 @@ public class Pokret extends Application{
                 gras4x1.render(context);
                 gras2x1.render(context);
                 ball.render(context);
-                for(Sprite enemy : enemyList){
+                for (Sprite enemy : enemyList) {
                     enemy.render(context);
                 }
-                for(Sprite coin : coinList){
+                for (Sprite coin : coinList) {
                     coin.render(context);
                 }
-                for(Sprite heart : heartList){
+                for (Sprite heart : heartList) {
                     heart.render(context);
                 }
                 context.setFill(Color.WHITE);
                 context.setStroke(Color.PINK);
-                context.setFont( new Font("Arial", 40));
+                context.setFont(new Font("Arial", 40));
                 context.setLineWidth(3);
                 String text = "Score:" + score;
                 int textX = 10;
@@ -276,7 +280,5 @@ public class Pokret extends Application{
         };
 
         gameloop.start();
-        
-        mainStage.show();
     }
 }

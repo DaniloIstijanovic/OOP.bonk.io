@@ -29,13 +29,13 @@ public class Main extends Application {
         new Point(1280, 720),
         new Point(1920, 1080),
     };
-    public String userID;
     public static Main instance;
     public final Point WINDOWSIZE = COMMONSIZES[1];
     @Deprecated
     public final Font fontBig = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.1f);
     @Deprecated
     public final Font fontSmall = Font.loadFont(MiscUtil.getResource("fonts/neo-sans-bold.otf"), WINDOWSIZE.y * 0.05f);
+    public User loggedInUser;
     private Stage stage;
 
     public static void main(String[] args) {
@@ -63,6 +63,7 @@ public class Main extends Application {
         Scene sc = new Scene(pane);
         stage.setScene(sc);
         sc.setRoot(pane);
+        stage.centerOnScreen();
     }
 
     public void setScene(Scene scene) {

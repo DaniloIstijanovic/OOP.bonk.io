@@ -1,5 +1,7 @@
 package com.github.daniloistijanovic.bonk.scenes;
+
 import com.github.daniloistijanovic.bonk.Main;
+import com.github.daniloistijanovic.bonk.User;
 import com.github.daniloistijanovic.bonk.utils.MusicUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,35 +24,12 @@ import static com.github.daniloistijanovic.bonk.utils.DebugUtil.debugger;
 
 public class Login {
 
-    static Map<String, String> logininfo;
     private static final String userFile = "bonk-users.dat";
+    static Map<String, User> logininfo;
     private static Scanner x;
 
     static {
-        try {
-            File load = new File(userFile);
-            FileInputStream fis = new FileInputStream(load);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            logininfo = (HashMap<String, String>) ois.readObject();
-            ois.close();
-            fis.close();
-        } catch (Exception e) {
-            //umesto ovoga treba da napravi prazan fajl ali evo za sad trpa jednog usera jer jos nema register
-            debugger.file("Greska u ucitavanju usera: " + e.getMessage());
-            logininfo = new HashMap<>();
-            logininfo.put("123", "456");
-            try {
-                File save = new File(userFile);
-                FileOutputStream fos = new FileOutputStream(save);
-                ObjectOutputStream oos = new ObjectOutputStream(fos);
-                oos.writeObject(logininfo);
-                oos.flush();
-                oos.close();
-                fos.close();
-            } catch (Exception e2) {
-                debugger.file("Greska u cuvanju usera: " + e2.getMessage());
-            }
-        }
+        loadUsers();
     }
 
     @FXML
@@ -64,33 +43,63 @@ public class Login {
     @FXML
     private Button button2;
 
-    public Login() {
+    private static void loadUsers() {
+        try {
+            File load = new File(userFile);
+            FileInputStream fis = new FileInputStream(load);
+            ObjectInputStream ois = new ObjectInputStream(fis);
+            logininfo = (HashMap<String, User>) ois.readObject();
+            ois.close();
+            fis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            debugger.file("Greska u ucitavanju usera: " + e.getMessage());
+            logininfo = new HashMap<>();
+            saveUsers();
+        }
+    }
 
+    private static void saveUsers() {
+        try {
+            File save = new File(userFile);
+            FileOutputStream fos = new FileOutputStream(save);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(logininfo);
+            oos.flush();
+            oos.close();
+            fos.close();
+        } catch (IOException e) {
+            debugger.file("Greska u cuvanju usera: " + e.getMessage());
+        }
     }
-    public void userRegister(ActionEvent event) {
-    	checkRegister();
-    	
-    }
+
     public void userLogIn(ActionEvent event) {
         checkLogin();
 
     }
 
+    public void userRegister(ActionEvent event) {
+        checkRegister();
+
+    }
+
     private void checkLogin() {
-      
+
         String userID = username.getText();
         String pass = password.getText();
         if (logininfo.containsKey(userID)) {
-            if (logininfo.get(userID).equals(pass)) {
+            User user = logininfo.get(userID);
+            if (user.getPass().equals(pass)) {
                 wrongLogIn.setText("Success!");
                 try {
-                	Main.instance.userID = userID;
+                    Main.instance.loggedInUser = user;
                     Main.instance.changeScene("MainMenu.fxml");
                     Main.instance.setTitle("Main Menu");
                     MusicUtil.playLoopInternal("Industrial.mp3");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else {
+                wrongLogIn.setText("Wrong username or password!");
             }
         } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
             wrongLogIn.setText("Enter the data.");
@@ -98,28 +107,28 @@ public class Login {
             wrongLogIn.setText("Wrong username or password!");
         }
     }
-    private void checkRegister(){
-    	String userID =  username.getText();
-    	String pass = password.getText();
-    	 if (logininfo.containsKey(userID)) {
-    		 wrongLogIn.setText("Username already exists");
-    		 
-                 
-    }else if (username.getText().isEmpty() && password.getText().isEmpty()) {
-             wrongLogIn.setText("Enter the data.");
-         
-     }else{
-    	 logininfo.put(userID,pass);
-    	 wrongLogIn.setText("Success!");
-         try {
-        	 Main.instance.userID = userID;
-             Main.instance.changeScene("MainMenu.fxml");
-             Main.instance.setTitle("Main Menu");
-             MusicUtil.playLoopInternal("Industrial.mp3");
-         } catch (IOException e) {
-             e.printStackTrace();
-         }
-    	 
-     }
+
+    private void checkRegister() {
+        String userID = username.getText();
+        String pass = password.getText();
+        if (logininfo.containsKey(userID)) {
+            wrongLogIn.setText("Username already exists");
+        } else if (username.getText().isEmpty() && password.getText().isEmpty()) {
+            wrongLogIn.setText("Enter the data.");
+        } else {
+            User newUser = new User(userID, pass);
+            logininfo.put(userID, newUser);
+            wrongLogIn.setText("Success!");
+            saveUsers();
+            try {
+                Main.instance.loggedInUser = newUser;
+                Main.instance.changeScene("MainMenu.fxml");
+                Main.instance.setTitle("Main Menu");
+                MusicUtil.playLoopInternal("Industrial.mp3");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 }

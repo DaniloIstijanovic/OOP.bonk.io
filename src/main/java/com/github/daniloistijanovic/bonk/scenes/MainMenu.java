@@ -1,7 +1,8 @@
 package com.github.daniloistijanovic.bonk.scenes;
+
 import com.github.daniloistijanovic.bonk.Main;
+import com.github.daniloistijanovic.bonk.Pokret.Pokret;
 import com.github.daniloistijanovic.bonk.multiplayer.Room;
-import com.github.daniloistijanovic.bonk.singleplayer.Singleplayer;
 import com.github.daniloistijanovic.bonk.utils.MusicUtil;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class MainMenu {
 
     public void launchSinglePlayer(ActionEvent e) {
         MusicUtil.playLoopInternal("Parent 4.mp3");
-        new Singleplayer().start();
+        new Pokret().start();
         Main.instance.setTitle("Singleplayer");
     }
 
@@ -37,7 +38,7 @@ public class MainMenu {
     }
 
     public void userLogOut(ActionEvent event) throws IOException {
-    	Main.instance.userID = null;
+        Main.instance.loggedInUser = null;
         MusicUtil.stopThis();
         Main.instance.changeScene("Login.fxml");
         Main.instance.setTitle("Login Page");
